@@ -1,6 +1,5 @@
 # Personel folders.
 production/
-pom.xml
 
 # Maven generated files.
 target/
