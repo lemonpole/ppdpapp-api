@@ -1,4 +1,4 @@
-package bootstrap;
+package edu.papolicy;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;

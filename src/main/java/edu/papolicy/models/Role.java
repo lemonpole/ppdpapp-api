@@ -1,4 +1,4 @@
-package models;
+package edu.papolicy.models;
 
 import java.util.Set;
 import javax.persistence.Entity;
