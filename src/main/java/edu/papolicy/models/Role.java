@@ -4,6 +4,8 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Column;
 import javax.persistence.OneToMany;
 
@@ -18,7 +20,7 @@ public class Role {
 	/**
 	* Annotated properties/fields.
 	*/
-	@Id
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="RoleID", nullable=false)
 	private int roleID;
 	
@@ -34,4 +36,10 @@ public class Role {
 	public int getRoleID(){ return this.roleID; }
 	public String getName(){ return this.name; }
 	public Set<User> getUsers(){ return this.users; }
+	
+	/**
+	* Setters.
+	*/
+	public void setRoleID(int roleID){ this.roleID = roleID; }
+	public void setName(String name){ this.name = name; }
 }

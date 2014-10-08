@@ -56,4 +56,14 @@ public class User {
 	public String getLastName(){ return this.lastName; }
 	public boolean getIsActive(){ return this.isActive; }
 	public Date getDateAdded(){ return this.dateAdded; }
+	
+	/**
+	* Setters.
+	*/
+	public void setEmail(String email){ this.email = email; }
+	public void setRole(Role role){ this.role = role; }
+	public void setFirstName(String firstName){ this.firstName = firstName; }
+	public void setLastName(String lastName){ this.lastName = lastName; }
+	public void setIsActive(boolean isActive){ this.isActive = isActive; }
+	public void setDateAdded(Date dateAdded){ this.dateAdded = dateAdded; }
 }
