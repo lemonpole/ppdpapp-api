@@ -1,5 +1,6 @@
 # Personel folders.
 production/
+!/production/db/ppdpapp-api.mwb
 
 # Maven generated files.
 target/
