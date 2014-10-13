@@ -1,6 +1,6 @@
 package edu.papolicy.models;
 
-import java.util.Set;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;
@@ -26,16 +26,16 @@ public class Role {
 	
 	@Column(name="Name", nullable=false)
 	private String name;
-	
+
 	@OneToMany(mappedBy="role")
-	private Set<User> users;
+	private List<User> users;
 	
 	/**
 	* Getters.
 	*/
 	public int getRoleID(){ return this.roleID; }
 	public String getName(){ return this.name; }
-	public Set<User> getUsers(){ return this.users; }
+	public List<User> getUsers(){ return this.users; }
 	
 	/**
 	* Setters.
