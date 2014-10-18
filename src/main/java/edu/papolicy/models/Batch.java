@@ -1,9 +1,6 @@
 package edu.papolicy.models;
 
-
 import java.util.Date;
-import java.util.List;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
 
@@ -23,7 +20,7 @@ public class Batch {
     @Column(name="BatchID", nullable=false)
     private int batchID;
 
-    @Column(name="FiledID", nullable=false)
+    @Column(name="FiledID", nullable=true)
     private int fileID;
 
     @Column(name="Name", nullable=false)

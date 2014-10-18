@@ -1,14 +1,11 @@
 package edu.papolicy.models;
 
-import java.util.List;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Column;
-import javax.persistence.OneToMany;
 
 /**
 * Role entity.
@@ -27,17 +24,12 @@ public class Role {
 	
 	@Column(name="Name", nullable=false)
 	private String name;
-
-	@OneToMany(mappedBy="role")
-	@JsonIgnore
-	private List<User> users;
 	
 	/**
 	* Getters.
 	*/
 	public int getRoleID(){ return this.roleID; }
 	public String getName(){ return this.name; }
-	public List<User> getUsers(){ return this.users; }
 	
 	/**
 	* Setters.
