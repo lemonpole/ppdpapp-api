@@ -1,6 +1,6 @@
 package edu.papolicy.daos;
 
-import edu.papolicy.models.Role;
+import edu.papolicy.models.Batch;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +18,8 @@ public class BatchDAOImpl implements BatchDAO {
 
 	@Override
 	@Transactional
-	public List<Role> list(){
-		List<Role> listRoles = (List<Role>) sessionFactory.getCurrentSession().createCriteria(Role.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return listRoles;
+	public List<Batch> list(){
+		List<Batch> listBatches = (List<Batch>) sessionFactory.getCurrentSession().createCriteria(Batch.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		return listBatch;
 	}
 }

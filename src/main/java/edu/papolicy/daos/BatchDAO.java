@@ -1,8 +1,8 @@
 package edu.papolicy.daos;
 
-import edu.papolicy.models.Role;
+import edu.papolicy.models.Batch;
 import java.util.List;
 
 public interface BatchDAO {
-	public List<Role> list();
+	public List<Batch> list();
 }
