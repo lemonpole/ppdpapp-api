@@ -18,6 +18,5 @@
 		<!-- Sample mapping -->
 		<!-- Better solution: http://stackoverflow.com/a/9980795 -->
 		<mapping class="edu.papolicy.models.Role" />
-		<mapping class="edu.papolicy.models.User" />
 	</session-factory>
 </hibernate-configuration>

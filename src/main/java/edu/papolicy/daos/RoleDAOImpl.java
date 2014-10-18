@@ -1,12 +1,15 @@
 package edu.papolicy.daos;
 
-import java.util.List;
 import edu.papolicy.models.Role;
+import java.util.List;
+
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 public class RoleDAOImpl implements RoleDAO {
+	@Autowired
 	private SessionFactory sessionFactory;
 
 	public RoleDAOImpl(SessionFactory sessionFactory){
