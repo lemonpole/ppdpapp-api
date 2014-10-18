@@ -1,6 +1,7 @@
 package edu.papolicy.models;
 
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;
@@ -28,6 +29,7 @@ public class Role {
 	private String name;
 
 	@OneToMany(mappedBy="role")
+	@JsonIgnore
 	private List<User> users;
 	
 	/**

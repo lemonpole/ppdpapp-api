@@ -1,8 +1,10 @@
 package edu.papolicy.controllers;
 
 import edu.papolicy.daos.RoleDAO;
+import edu.papolicy.models.User;
 import edu.papolicy.models.Role;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
