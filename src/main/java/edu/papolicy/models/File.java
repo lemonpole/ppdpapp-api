@@ -36,10 +36,10 @@ public class File {
     @Column(name="Email", nullable=false)
     private String email;
 
-    /**
-     * Constructor
+
+    /*
+    *getters and setters
      */
-    public File(){}
 
     public Integer getFileID() {
         return fileID;
@@ -80,4 +80,6 @@ public class File {
     public void setEmail(String email) {
         this.email = email;
     }
+
+
 }
