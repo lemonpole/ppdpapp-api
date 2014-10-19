@@ -4,6 +4,8 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Column;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -17,9 +19,9 @@ import javax.persistence.TemporalType;
 @Table(name="Files")
 public class File {
     /**
-     * Annotated properties/fields.
-     */
-    @Id
+    * Annotated properties/fields.
+    */
+    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="FileID", nullable=false)
     private Integer fileID;
 
@@ -33,18 +35,16 @@ public class File {
     @Temporal(TemporalType.DATE)
     private Date dateAdded;
 
-    @Column(name="Email", nullable=false)
-    private String email;
+    @Column(name="Creator", nullable=false)
+    private String creator;
 
 
-    /*
-    *getters and setters
-     */
-
+    /**
+    * Getters and setters
+    */
     public Integer getFileID() {
         return fileID;
     }
-
     public void setFileID(Integer fileID) {
         this.fileID = fileID;
     }
@@ -52,7 +52,6 @@ public class File {
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -60,7 +59,6 @@ public class File {
     public String getFileURL() {
         return fileURL;
     }
-
     public void setFileURL(String fileURL) {
         this.fileURL = fileURL;
     }
@@ -68,18 +66,14 @@ public class File {
     public Date getDateAdded() {
         return dateAdded;
     }
-
     public void setDateAdded(Date dateAdded) {
         this.dateAdded = dateAdded;
     }
 
-    public String getEmail() {
-        return email;
+    public String getCreator() {
+        return creator;
     }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setCreator(String creator) {
+        this.creator = creator;
     }
-
-
 }
