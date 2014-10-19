@@ -6,4 +6,5 @@ import java.util.List;
 public interface UserDAO {
     public List<User> list();
 	public User find(String email);
+	public User save(User userObj);
 }

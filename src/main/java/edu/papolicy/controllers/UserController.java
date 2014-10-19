@@ -3,7 +3,6 @@ package edu.papolicy.controllers;
 import edu.papolicy.daos.UserDAO;
 import edu.papolicy.models.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +25,5 @@ public class UserController {
 	}
 
     @RequestMapping(method=RequestMethod.POST)
-    public void postUsers(){}
+    public User postUser(@RequestBody User userObj){ return userDAO.save(userObj); }
 }

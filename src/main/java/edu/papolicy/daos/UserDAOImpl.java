@@ -29,4 +29,11 @@ public class UserDAOImpl implements UserDAO {
 		User userObj = (User) sessionFactory.getCurrentSession().get(User.class, email);
 		return userObj;
 	}
+
+	@Override
+	@Transactional
+	public User save(User userObj){
+		sessionFactory.getCurrentSession().save(userObj);
+		return userObj;
+	}
 }
