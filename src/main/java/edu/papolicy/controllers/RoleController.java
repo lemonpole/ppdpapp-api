@@ -23,11 +23,9 @@ public class RoleController {
 	public List<Role> getRoles(@RequestParam(value="id", required = false, defaultValue = "0") int id){
 		List<Role> roles = new ArrayList<Role>();
 
-		if(id>0){
-			roles.add(roleDAO.find(id));
-		} else {
-			roles = roleDAO.list();
-		}
+		if(id>0) roles.add(roleDAO.find(id));
+		else roles = roleDAO.list();
+
 		return roles;
 	}
 }

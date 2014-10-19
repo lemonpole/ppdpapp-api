@@ -22,4 +22,11 @@ public class UserDAOImpl implements UserDAO {
         List<User> listUsers = (List<User>) sessionFactory.getCurrentSession().createCriteria(User.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
         return listUsers;
     }
+
+	@Override
+	@Transactional
+	public User find(String email){
+		User userObj = (User) sessionFactory.getCurrentSession().get(User.class, email);
+		return userObj;
+	}
 }
