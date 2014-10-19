@@ -5,4 +5,5 @@ import java.util.List;
 
 public interface CodeDAO {
     public List<Code> list();
+	public Code find(int id);
 }
