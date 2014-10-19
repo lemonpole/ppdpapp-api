@@ -5,5 +5,6 @@ import java.util.List;
 
 public interface DocumentDAO {
     public List<Document> list();
+	public Document find(int id);
 }
 http://calclash.me/playv

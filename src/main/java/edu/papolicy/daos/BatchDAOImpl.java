@@ -18,8 +18,16 @@ public class BatchDAOImpl implements BatchDAO {
 
 	@Override
 	@Transactional
-	public List<Batch> list(){
-		List<Batch> listBatches = (List<Batch>) sessionFactory.getCurrentSession().createCriteria(Batch.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return listBatch;
+	public List<Batch> list(){ return (List<Batch>) sessionFactory.getCurrentSession().createCriteria(Batch.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list(); }
+
+	@Override
+	@Transactional
+	public Batch find(int id){ return (Batch) sessionFactory.getCurrentSession().get(Batch.class, id); }
+
+	@Override
+	@Transactional
+	public Batch save(Batch batchObj){
+		sessionFactory.getCurrentSession().save(batchObj);
+		return batchObj;
 	}
 }

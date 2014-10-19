@@ -3,9 +3,7 @@ package edu.papolicy.controllers;
 import edu.papolicy.daos.BatchDAO;
 import edu.papolicy.models.Batch;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,11 +14,11 @@ public class BatchController {
 	private BatchDAO batchDAO;
 
 	@RequestMapping(method=RequestMethod.GET)
-	public List<Batch> getBatches(){
-		List<Batch> Batches = batchDAO.list();
-		return Batches;
-	}
+	public List<Batch> getBatches(){ return batchDAO.list(); }
+
+	@RequestMapping(method = RequestMethod.GET, value = "/{id}")
+	public Batch getBatch(@PathVariable int id){ return batchDAO.find(id); }
 
 	@RequestMapping(method=RequestMethod.POST)
-	public void postBatches(){}
+	public Batch postBatch(@RequestBody Batch batchObj){ return batchDAO.save(batchObj); }
 }
