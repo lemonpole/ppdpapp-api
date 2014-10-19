@@ -20,6 +20,6 @@ public class CodeDAOImpl implements CodeDAO {
     @Transactional
     public List<Code> list(){
         List<Code> listCodes = (List<Code>) sessionFactory.getCurrentSession().createCriteria(Code.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-        return listCode;
+        return listCodes;
     }
 }

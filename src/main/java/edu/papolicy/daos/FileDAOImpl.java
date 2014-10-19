@@ -20,6 +20,6 @@ public class FileDAOImpl implements FileDAO {
     @Transactional
     public List<File> list(){
         List<File> listFiles = (List<File>) sessionFactory.getCurrentSession().createCriteria(File.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-        return listFile;
+        return listFiles;
     }
 }

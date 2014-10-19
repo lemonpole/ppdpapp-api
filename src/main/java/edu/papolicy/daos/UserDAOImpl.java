@@ -20,6 +20,6 @@ public class UserDAOImpl implements UserDAO {
     @Transactional
     public List<User> list(){
         List<User> listUsers = (List<User>) sessionFactory.getCurrentSession().createCriteria(User.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-        return listUser;
+        return listUsers;
     }
 }

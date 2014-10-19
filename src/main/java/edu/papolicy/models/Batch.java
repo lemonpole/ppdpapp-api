@@ -10,7 +10,7 @@ import javax.persistence.*;
  * See: http://docs.jboss.org/hibernate/annotations/3.5/reference/en/html/entity.html
  */
 @Entity
-@Document(name="Batches")
+@Table(name="Batches")
 public class Batch {
     /**
      * Annotated properties/fields.

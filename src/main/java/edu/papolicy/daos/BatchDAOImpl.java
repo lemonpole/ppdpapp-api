@@ -20,6 +20,6 @@ public class BatchDAOImpl implements BatchDAO {
 	@Transactional
 	public List<Batch> list(){
 		List<Batch> listBatches = (List<Batch>) sessionFactory.getCurrentSession().createCriteria(Batch.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return listBatch;
+		return listBatches;
 	}
 }
