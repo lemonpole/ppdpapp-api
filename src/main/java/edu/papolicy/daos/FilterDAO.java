@@ -5,4 +5,6 @@ import java.util.List;
 
 public interface FilterDAO {
     public List<Filter> list();
+    public Filter find(Integer ID);
+    public Filter save(Filter filterObj);
 }

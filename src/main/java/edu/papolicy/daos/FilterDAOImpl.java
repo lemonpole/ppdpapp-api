@@ -22,4 +22,18 @@ public class FilterDAOImpl implements FilterDAO {
         List<Filter> listFilters = (List<Filter>) sessionFactory.getCurrentSession().createCriteria(Filter.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
         return listFilters;
     }
+
+    @Override
+    @Transactional
+    public Filter find(Integer id){
+        Filter filterObj = (Filter) sessionFactory.getCurrentSession().get(Filter.class, id);
+        return filterObj;
+    }
+
+    @Override
+    @Transactional
+    public Filter save(Filter filterObj){
+        sessionFactory.getCurrentSession().save(filterObj);
+        return filterObj;
+    }
 }

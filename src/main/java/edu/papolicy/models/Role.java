@@ -26,7 +26,7 @@ public class Role {
 	private String name;
 	
 	/**
-	* Getters.
+	* Getters.u
 	*/
 	public int getRoleID(){ return this.roleID; }
 	public String getName(){ return this.name; }
