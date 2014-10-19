@@ -5,22 +5,20 @@ import edu.papolicy.models.Code;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @RestController
-@RequestMapping("/Codes")
+@RequestMapping("/codes")
 public class CodeController {
     @Autowired
-    private CodeDAO CodeDAO;
+    private CodeDAO codeDAO;
 
     @RequestMapping(method=RequestMethod.GET)
-    public List<Code> getCodes(){
-        List<Code> Codes = CodeDAO.list();
-        return Codes;
-    }
+    public List<Code> getCodes(){ return codeDAO.list(); }
 
-    @RequestMapping(method=RequestMethod.POST)
-    public void postCodes(){}
+	@RequestMapping(method = RequestMethod.GET, value="/{id}")
+	public Code getCode(@PathVariable int id){ return codeDAO.find(id); }
 }

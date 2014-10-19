@@ -18,8 +18,9 @@ public class CodeDAOImpl implements CodeDAO {
 
     @Override
     @Transactional
-    public List<Code> list(){
-        List<Code> listCodes = (List<Code>) sessionFactory.getCurrentSession().createCriteria(Code.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-        return listCodes;
-    }
+    public List<Code> list(){ return (List<Code>) sessionFactory.getCurrentSession().createCriteria(Code.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list(); }
+
+	@Override
+	@Transactional
+	public Code find(int id){ return (Code) sessionFactory.getCurrentSession().get(Code.class, id); }
 }
