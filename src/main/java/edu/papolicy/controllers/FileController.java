@@ -25,7 +25,7 @@ public class FileController {
 	}
 
     @RequestMapping(method=RequestMethod.POST)
-    public File postFiles(@RequestBody File fileObj){
+    public File postFile(@RequestBody File fileObj){
 	    return fileDAO.save(fileObj);
     }
 }

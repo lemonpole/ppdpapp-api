@@ -1,7 +1,14 @@
 package edu.papolicy.models;
 
 import java.util.Date;
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Column;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 /**
@@ -20,8 +27,8 @@ public class Batch {
     @Column(name="BatchID", nullable=false)
     private int batchID;
 
-    @Column(name="FiledID", nullable=true)
-    private int fileID;
+    @Column(name="FileID", nullable=true)
+    private String fileID = null;
 
     @Column(name="Name", nullable=false)
     private String name;
@@ -38,21 +45,20 @@ public class Batch {
     private Date dateDue;
 
     /**
-     * Getters.
-     */
+    * Getters.
+    */
     public int getBatchID(){ return this.batchID; }
-    public Integer getFileID(){ return this.fileID; }
+    public String getFileID(){ return this.fileID; }
     public String getName(){ return this.name; }
     public Date getDateAdded(){ return this.dateAdded; }
     public String getCreator() {return this.creator; }
     public Date getDateDue() {return this.dateDue; }
 
     /**
-     * Setters.
-     */
-
+    * Setters.
+    */
     public void setBatchID(int batchID){ this.batchID = batchID;}
-    public void setFileID(int fileID){this.fileID = fileID; }
+    public void setFileID(String fileID){this.fileID = fileID; }
     public void setName(String name){ this.name = name; }
     public void setDateAdded(Date dateAdded){ this.dateAdded = dateAdded; }
     public void setCreator(String creator) { this.creator = creator;}
