@@ -1,27 +1,22 @@
 package edu.papolicy.models;
 
-import java.util.Date;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Column;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.Date;
+import java.util.List;
+import javax.persistence.*;
 
 /**
- * Batch entity.
- *
- * See: http://docs.jboss.org/hibernate/annotations/3.5/reference/en/html/entity.html
- */
+* Batch entity.
+*
+* See: http://docs.jboss.org/hibernate/annotations/3.5/reference/en/html/entity.html
+*/
 @Entity
 @Table(name="Batches")
 public class Batch {
     /**
-     * Annotated properties/fields.
-     */
+    * Annotated properties/fields.
+    */
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="BatchID", nullable=false)
@@ -44,15 +39,20 @@ public class Batch {
     @Column(name="DateDue", nullable=false)
     private Date dateDue;
 
-    /**
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "BatchUser", joinColumns = {@JoinColumn(name = "BatchID")}, inverseJoinColumns = {@JoinColumn(name = "Email")})
+	private List<User> users;
+
+	/**
     * Getters.
     */
     public int getBatchID(){ return this.batchID; }
     public String getFileID(){ return this.fileID; }
     public String getName(){ return this.name; }
     public Date getDateAdded(){ return this.dateAdded; }
-    public String getCreator() {return this.creator; }
-    public Date getDateDue() {return this.dateDue; }
+    public String getCreator(){ return this.creator; }
+    public Date getDateDue(){ return this.dateDue; }
+	public List<User> getUsers(){ return this.users; }
 
     /**
     * Setters.
@@ -61,8 +61,9 @@ public class Batch {
     public void setFileID(String fileID){this.fileID = fileID; }
     public void setName(String name){ this.name = name; }
     public void setDateAdded(Date dateAdded){ this.dateAdded = dateAdded; }
-    public void setCreator(String creator) { this.creator = creator;}
-    public void setDateDue(Date dateDue) {this.dateDue = dateDue; }
+    public void setCreator(String creator){ this.creator = creator;}
+    public void setDateDue(Date dateDue){ this.dateDue = dateDue; }
+	public void setUsers(List<User> users){ this.users = users; }
 }
 
 

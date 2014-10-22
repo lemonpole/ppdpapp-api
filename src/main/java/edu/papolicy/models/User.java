@@ -1,12 +1,8 @@
 package edu.papolicy.models;
 
 import java.util.Date;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Id;
-import javax.persistence.Column;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import java.util.List;
+import javax.persistence.*;
 
 /**
 * User entity.
@@ -38,12 +34,10 @@ public class User {
 	@Column(name="DateAdded", nullable=false)
 	@Temporal(TemporalType.DATE)
 	private Date dateAdded;
-	
-	/**
-	* Constructor
-	*/
-	public User(){}
-	
+
+	@ManyToMany(mappedBy = "users")
+	private List<Batch> batches;
+
 	/**
 	* Getters.
 	*/
@@ -53,6 +47,7 @@ public class User {
 	public String getLastName(){ return this.lastName; }
 	public boolean getIsActive(){ return this.isActive; }
 	public Date getDateAdded(){ return this.dateAdded; }
+	public List<Batch> getBatches(){ return this.batches; }
 	
 	/**
 	* Setters.
@@ -63,4 +58,5 @@ public class User {
 	public void setLastName(String lastName){ this.lastName = lastName; }
 	public void setIsActive(boolean isActive){ this.isActive = isActive; }
 	public void setDateAdded(Date dateAdded){ this.dateAdded = dateAdded; }
+	public void setBatches(List<Batch> batches){ this.batches = batches; }
 }
