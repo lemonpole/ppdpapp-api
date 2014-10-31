@@ -36,4 +36,10 @@ public class UserDAOImpl implements UserDAO {
 		sessionFactory.getCurrentSession().save(userObj);
 		return userObj;
 	}
+
+	@Override
+	@Transactional
+	public void update(User userObj){
+		sessionFactory.getCurrentSession().saveOrUpdate(userObj);
+	}
 }

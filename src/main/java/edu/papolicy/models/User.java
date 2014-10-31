@@ -1,5 +1,7 @@
 package edu.papolicy.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
@@ -35,6 +37,10 @@ public class User {
 	@Temporal(TemporalType.DATE)
 	private Date dateAdded;
 
+	@Column(name="AccessToken", nullable=true)
+	@JsonIgnore
+	private String accessToken;
+
 	/**
 	* Getters.
 	*/
@@ -44,7 +50,8 @@ public class User {
 	public String getLastName(){ return this.lastName; }
 	public boolean getIsActive(){ return this.isActive; }
 	public Date getDateAdded(){ return this.dateAdded; }
-	
+	public String getAccessToken(){ return this.accessToken; }
+
 	/**
 	* Setters.
 	*/
@@ -54,4 +61,5 @@ public class User {
 	public void setLastName(String lastName){ this.lastName = lastName; }
 	public void setIsActive(boolean isActive){ this.isActive = isActive; }
 	public void setDateAdded(Date dateAdded){ this.dateAdded = dateAdded; }
+	public void setAccessToken(String accessToken){ this.accessToken = accessToken; }
 }
