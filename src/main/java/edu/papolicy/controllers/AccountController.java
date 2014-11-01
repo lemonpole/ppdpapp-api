@@ -2,6 +2,7 @@ package edu.papolicy.controllers;
 
 import edu.papolicy.daos.UserDAO;
 import edu.papolicy.models.User;
+import edu.papolicy.services.Account;
 
 import java.nio.charset.Charset;
 import java.util.Calendar;
@@ -23,15 +24,13 @@ public class AccountController {
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity postAccount(@RequestHeader(value = "Authorization") String authorization){
 		// Take Base64 encoded string from authorization header and extract username and password.
-		String base64Credentials = authorization.substring("Basic".length()).trim();
-		String credentials = new String(Base64.decodeBase64(base64Credentials), Charset.forName("UTF-8"));
-		String[] values = credentials.split(":",2);
+		String[] values = Account.parseAuthHeader(authorization);
 
 		// Query database and ensure the email exists.
 		// On success, generate an access token with expiry date of 24 hours.
 		try {
-			long timestamp;
 			User res = userDAO.find(values[0]);
+			long timestamp;
 			Calendar c = Calendar.getInstance();
 
 			c.setTime(new Date());
