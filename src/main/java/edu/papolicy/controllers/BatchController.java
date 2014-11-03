@@ -36,7 +36,7 @@ public class BatchController {
 		return batchDAO.save(batchObj);
 	}
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{id}/add/user")
+    @RequestMapping(method = RequestMethod.POST, value = "/{id}/add/user")
     public ResponseEntity postAddUser(@PathVariable int id, @RequestBody User userObj){
         Batch batchObj = batchDAO.find(id);
         List<User> userList = batchObj.getUsers();
