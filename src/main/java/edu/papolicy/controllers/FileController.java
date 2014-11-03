@@ -5,6 +5,7 @@ import edu.papolicy.models.File;
 
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,16 @@ public class FileController {
                         new BufferedOutputStream(new FileOutputStream(new java.io.File(name)));
                 stream.write(bytes);
                 stream.close();
-                return  new ResponseEntity<String>("file upload", HttpStatus.OK);
+
+                File fileObj = new File();
+                fileObj.setName(name);
+                fileObj.setFileURL(name); //todo: fix please
+                fileObj.setDateAdded(new Date());
+                fileObj.setCreator("admin@temple.edu");  //todo: fix please
+
+                fileObj = fileDAO.save(fileObj);
+
+                return  new ResponseEntity<File>(fileObj, HttpStatus.OK);
             } catch (Exception e) {
                 return new ResponseEntity<String>("file NOT upload", HttpStatus.BAD_REQUEST);
             }
@@ -49,6 +59,6 @@ public class FileController {
         }
 
 
-                //fileDAO.save(fileObj);
+
     }
 }
