@@ -22,7 +22,7 @@ public class Filter {
      */
     @Id
     @Column(name="ID", nullable=false)
-    private Integer id;
+    private Integer ID;
 
     @Column(name="TableID", nullable=false)
     private Integer tableID;
