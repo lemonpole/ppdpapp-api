@@ -37,7 +37,7 @@ public class BatchDAOImpl implements BatchDAO {
 	@Override
 	@Transactional
 	public Batch save(Batch batchObj){
-		sessionFactory.getCurrentSession().save(batchObj);
+		sessionFactory.getCurrentSession().saveOrUpdate(batchObj);
 		return batchObj;
 	}
 }

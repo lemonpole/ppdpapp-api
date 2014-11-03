@@ -6,6 +6,8 @@ import edu.papolicy.models.User;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -33,4 +35,13 @@ public class BatchController {
 	public Batch postBatch(@RequestBody Batch batchObj){
 		return batchDAO.save(batchObj);
 	}
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}/add/user")
+    public ResponseEntity postAddUser(@PathVariable int id, @RequestBody User userObj){
+        Batch batchObj = batchDAO.find(id);
+        List<User> userList = batchObj.getUsers();
+        userList.add(userObj);
+        batchDAO.save(batchObj);
+        return new ResponseEntity<String>("user added, friend", HttpStatus.OK);
+    }
 }
