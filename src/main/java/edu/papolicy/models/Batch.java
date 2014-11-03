@@ -39,7 +39,7 @@ public class Batch {
     @Column(name="DateDue", nullable=false)
     private Date dateDue;
 
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "BatchUser", joinColumns = {@JoinColumn(name = "BatchID")}, inverseJoinColumns = {@JoinColumn(name = "Email")})
 	private List<User> users;
 

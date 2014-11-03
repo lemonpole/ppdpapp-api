@@ -26,7 +26,7 @@ public class Application {
 	public DataSource getDataSource(){
 		BasicDataSource dataSource = new BasicDataSource();
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		dataSource.setUrl("jdbc:mysql://steve-rivera.com:3306/PAPolicy");
+		dataSource.setUrl("jdbc:mysql://lemonpolesites.cloudapp.net:3306/PAPolicy");
 		dataSource.setUsername("capstone");
 		dataSource.setPassword("letusin");
 
