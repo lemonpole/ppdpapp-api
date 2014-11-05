@@ -1,9 +1,11 @@
 package edu.papolicy.daos;
 
+import edu.papolicy.models.Batch;
 import edu.papolicy.models.User;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,4 +44,16 @@ public class UserDAOImpl implements UserDAO {
 	public void update(User userObj){
 		sessionFactory.getCurrentSession().saveOrUpdate(userObj);
 	}
+
+    @Override
+    @Transactional
+    public List<Batch> findBatches(int id){
+        Session sess = this.sessionFactory.getCurrentSession();
+        User userObj = (User) sess.get(User.class, id);
+
+        return(List<Batch>) sess.createSQLQuery("Select * from Batches");
+
+
+
+    }
 }

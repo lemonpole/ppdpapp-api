@@ -1,6 +1,7 @@
 package edu.papolicy.controllers;
 
 import edu.papolicy.daos.UserDAO;
+import edu.papolicy.models.Batch;
 import edu.papolicy.models.User;
 
 import java.util.List;
@@ -26,4 +27,9 @@ public class UserController {
 
     @RequestMapping(method=RequestMethod.POST)
     public User postUser(@RequestBody User userObj){ return userDAO.save(userObj); }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}/batches")
+    public List<Batch> getUserBatches(@PathVariable int id){
+        return userDAO.findBatches(id);
+    }
 }

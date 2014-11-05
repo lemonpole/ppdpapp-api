@@ -62,4 +62,5 @@ public class User {
 	public void setIsActive(boolean isActive){ this.isActive = isActive; }
 	public void setDateAdded(Date dateAdded){ this.dateAdded = dateAdded; }
 	public void setAccessToken(String accessToken){ this.accessToken = accessToken; }
+
 }
