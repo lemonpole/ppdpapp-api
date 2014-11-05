@@ -28,8 +28,8 @@ public class UserController {
     @RequestMapping(method=RequestMethod.POST)
     public User postUser(@RequestBody User userObj){ return userDAO.save(userObj); }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{id}/batches")
-    public List<Batch> getUserBatches(@PathVariable int id){
-        return userDAO.findBatches(id);
+    @RequestMapping(method = RequestMethod.GET, value = "/{email:.+}/batches")
+    public List<Batch> getUserBatches(@PathVariable String email){
+        return userDAO.findBatches(email);
     }
 }

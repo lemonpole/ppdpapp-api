@@ -47,11 +47,11 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     @Transactional
-    public List<Batch> findBatches(int id){
+    public List<Batch> findBatches(String email){
         Session sess = this.sessionFactory.getCurrentSession();
-        User userObj = (User) sess.get(User.class, id);
+        User userObj = (User) sess.get(User.class, email);
 
-        return(List<Batch>) sess.createSQLQuery("Select * from Batches");
+        return(List<Batch>) sess.createSQLQuery("Select * from Batches").list();
 
 
 
