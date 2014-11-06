@@ -4,6 +4,7 @@ import edu.papolicy.models.Document;
 import java.util.List;
 
 public interface DocumentDAO {
-    public List<Document> list();
-	public Document find(int id);
+	public Object find(int id);
+    List<Object> findDocuments(String tableName);
+    Object findDocument(String tableName, Integer id);
 }
