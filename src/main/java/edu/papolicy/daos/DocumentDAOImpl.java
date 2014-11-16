@@ -1,11 +1,13 @@
 package edu.papolicy.daos;
 
-import java.util.List;
+import java.util.*;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import com.sun.rowset.internal.Row;
+import org.hibernate.*;
+import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+
 
 public class DocumentDAOImpl implements DocumentDAO {
 	@Autowired
@@ -24,20 +26,23 @@ public class DocumentDAOImpl implements DocumentDAO {
 
 	@Override
     @Transactional
-    public List<Object> findDocuments(String docType) {
+    public List<Map<String, String>> findDocuments(String docType) {
         Session sess = sessionFactory.getCurrentSession();
-        String sql = "Select * from " + docType + " LIMIT 100";
-        List<Object> documents = sess.createSQLQuery(sql).addEntity(Object.class).list();
-
-        return documents;
+        SQLQuery query = sess.createSQLQuery("SELECT * FROM " + docType + " Order By ID Desc LIMIT 10");
+        query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+        List<Map<String,String>> ResultsMapList=query.list();
+        return ResultsMapList;
     }
 
-	@Override
+    @Override
     @Transactional
-    public Object findDocument(String docType, int id){
+    public List<Map<String, String>> findDocument(String docType, String id) {
         Session sess = sessionFactory.getCurrentSession();
-        String sql = "Select * from " + docType + " LIMIT 100 WHERE id = " + id;
-        Object document = sess.createSQLQuery(sql).addEntity(Object.class).list();
-        return document;
+        SQLQuery query = sess.createSQLQuery("SELECT * FROM " + docType + " WHERE ID = " + id);
+        query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+        List<Map<String,String>> ResultsMapList=query.list();
+
+        return ResultsMapList;
     }
+
 }
