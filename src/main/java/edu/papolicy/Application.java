@@ -33,6 +33,11 @@ public class Application {
 		dataSource.setUsername("capstone");
 		dataSource.setPassword("letusin");
 
+		//dataSource.setUrl("jdbc:mysql://localhost:3306/PAPolicy_Copy");
+		//dataSource.setUsername("tud0724");
+		//dataSource.setPassword("mu7Shie4");
+
+
 		return dataSource;
 	}
 

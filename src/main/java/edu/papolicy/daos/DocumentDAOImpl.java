@@ -44,5 +44,13 @@ public class DocumentDAOImpl implements DocumentDAO {
 
         return ResultsMapList;
     }
+    public List<Map<String, String>> findDocumentCodes(String docType, String id) {
+        Session sess = sessionFactory.getCurrentSession();
+        SQLQuery query = sess.createSQLQuery("SELECT * FROM PAPolicy.UserPolicyCode WHERE documentID = " + id);
+        query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+        List<Map<String,String>> ResultsMapList=query.list();
+
+        return ResultsMapList;
+    }
 
 }
