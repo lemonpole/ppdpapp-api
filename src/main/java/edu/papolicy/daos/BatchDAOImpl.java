@@ -4,6 +4,7 @@ import edu.papolicy.models.Batch;
 import edu.papolicy.models.User;
 import java.util.List;
 
+import edu.papolicy.services.Account;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

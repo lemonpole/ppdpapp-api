@@ -11,6 +11,8 @@ import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.security.sasl.AuthenticationException;
+
 @Service
 public class Account {
 	@Autowired
@@ -34,5 +36,19 @@ public class Account {
 		// is today's timestamp past the timestamp recorded?
 		Date today = new Date();
 		return today.after(expiry);
+	}
+
+	public static User doAuthentication(String Token) throws AuthenticationException{
+		//check if token is expired, if not then throw exception
+		if (isAccessTokenExpired(Token) == true) {
+			throw new AuthenticationException();
+		}
+
+		//gets user
+
+		//return user
+
+
+		return null;
 	}
 }

@@ -1,10 +1,13 @@
 package edu.papolicy.controllers;
 
 import edu.papolicy.daos.BatchDAO;
+import edu.papolicy.daos.UserDAO;
 import edu.papolicy.models.Batch;
 import edu.papolicy.models.User;
 import java.util.List;
 
+import edu.papolicy.services.Account;
+import org.omg.CORBA.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +18,17 @@ import org.springframework.web.bind.annotation.*;
 public class BatchController {
 	@Autowired
 	private BatchDAO batchDAO;
+	@Autowired
+	private UserDAO userDAO;
 
 	@RequestMapping(method=RequestMethod.GET)
 	public List<Batch> getBatches(){
-		return batchDAO.list();
+		User user = Account.doAuthentication();
+
+		if (user.getRoleID() > 1){
+			return batchDAO.list(); }
+		else{
+			return userDAO.findBatches(user.getEmail()); }
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/{id}")
