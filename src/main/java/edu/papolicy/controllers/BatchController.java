@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.security.sasl.AuthenticationException;
+
 @RestController
 @RequestMapping("/batches")
 public class BatchController {
@@ -22,8 +24,13 @@ public class BatchController {
 	private UserDAO userDAO;
 
 	@RequestMapping(method=RequestMethod.GET)
-	public List<Batch> getBatches(){
-		User user = Account.doAuthentication();
+	public List<Batch> getBatches(@RequestParam(value="token") String token){
+		User user = null;
+		try {
+			user = Account.doAuthentication(token);
+		} catch (AuthenticationException e) {
+			return null;
+		}
 
 		if (user.getRoleID() > 1){
 			return batchDAO.list(); }

@@ -1,6 +1,7 @@
 package edu.papolicy.services;
 
 import edu.papolicy.daos.UserDAO;
+import edu.papolicy.daos.UserDAOImpl;
 import edu.papolicy.models.User;
 
 import java.nio.charset.Charset;
@@ -38,17 +39,14 @@ public class Account {
 		return today.after(expiry);
 	}
 
-	public static User doAuthentication(String Token) throws AuthenticationException{
+	public static User doAuthentication(String token) throws AuthenticationException{
 		//check if token is expired, if not then throw exception
-		if (isAccessTokenExpired(Token) == true) {
+		if (isAccessTokenExpired(token) == true) {
 			throw new AuthenticationException();
 		}
-
 		//gets user
-
+		User user = userDAO.findByToken(token);
 		//return user
-
-
-		return null;
+		return user;
 	}
 }

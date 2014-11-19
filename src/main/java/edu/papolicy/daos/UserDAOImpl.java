@@ -34,6 +34,14 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	@Transactional
+	public User findByToken(String token){
+		User userObj = (User) sessionFactory.getCurrentSession().get(User.class, token);
+		return userObj;
+	}
+
+
+	@Override
+	@Transactional
 	public User save(User userObj){
 		sessionFactory.getCurrentSession().save(userObj);
 		return userObj;
