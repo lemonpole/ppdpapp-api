@@ -39,7 +39,6 @@ public class UserDAOImpl implements UserDAO {
 		return userObj;
 	}
 
-
 	@Override
 	@Transactional
 	public User save(User userObj){

@@ -29,9 +29,7 @@ public class BatchController {
 		try {
 			user = Account.doAuthentication(token);
 		} catch (AuthenticationException e) {
-			return null;
-		}
-
+			return null;}
 		if (user.getRoleID() > 1){
 			return batchDAO.list(); }
 		else{
