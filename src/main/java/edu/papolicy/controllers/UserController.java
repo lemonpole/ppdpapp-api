@@ -22,7 +22,7 @@ public class UserController {
 
 	@RequestMapping(method=RequestMethod.GET, value="/{email:.+}")
 	public User getUser(@PathVariable String email){
-		return userDAO.find(email);
+        return userDAO.find(email);
 	}
 
     @RequestMapping(method=RequestMethod.POST)

@@ -5,8 +5,10 @@ import edu.papolicy.models.User;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,8 +37,10 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	@Transactional
 	public User findByToken(String token){
-		User userObj = (User) sessionFactory.getCurrentSession().get(User.class, token);
-		return userObj;
+		Session sess = sessionFactory.getCurrentSession();
+		SQLQuery query = sess.createSQLQuery("SELECT * FROM Users WHERE AccessToken = '" + token + "'");
+		query.addEntity(User.class);
+		return (User) query.uniqueResult();
 	}
 
 	@Override
