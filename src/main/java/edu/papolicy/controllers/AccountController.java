@@ -5,6 +5,7 @@ import edu.papolicy.models.User;
 import edu.papolicy.services.Account;
 
 import java.nio.charset.Charset;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -30,15 +31,17 @@ public class AccountController {
 		// On success, generate an access token with expiry date of 24 hours.
 		try {
 			User res = userDAO.find(values[0]);
-			long timestamp;
 			Calendar c = Calendar.getInstance();
+			Date dt;
+			Timestamp ts;
 
 			c.setTime(new Date());
 			c.add(Calendar.DATE, 1);
-			timestamp = c.getTimeInMillis();
+			dt = c.getTime();
+			ts = new Timestamp(dt.getTime());
 
 			String randString = RandomStringUtils.randomAlphanumeric(32);
-			String token = randString + ":" + timestamp;
+			String token = randString + ":" + ts.getTime();
 
 			// Update user and store in database.
 			res.setAccessToken(token);

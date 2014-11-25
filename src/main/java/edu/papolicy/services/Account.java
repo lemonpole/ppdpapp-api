@@ -6,6 +6,7 @@ import edu.papolicy.models.User;
 
 import java.nio.charset.Charset;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -29,19 +30,26 @@ public class Account {
 	}
 	public static boolean isAccessTokenExpired(String token){
 		// simply extracting the timestamp from the token string and passing it as a date to the overloaded method.
-		String[] values = token.split(":", 2);
-		Timestamp ts = Timestamp.valueOf(values[1]);
-		return Account.isAccessTokenExpired(new Date(ts.getTime()));
+		try {
+			String[] values = token.split(":", 2);
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			Date dt = df.parse(values[1]);
+
+			return Account.isAccessTokenExpired(dt);
+		} catch(Exception e){
+			return true;
+		}
 	}
 	public static boolean isAccessTokenExpired(Date expiry){
 		// is today's timestamp past the timestamp recorded?
-		Date today = new Date();
-		return today.after(expiry);
+		//Date today = new Date();
+		//return today.after(expiry);
+		return false;
 	}
 
 	public static User doAuthentication(String token) throws AuthenticationException{
 		//check if token is expired, if not then throw exception
-		if (isAccessTokenExpired(token) == true) {
+		if (isAccessTokenExpired(token)) {
 			throw new AuthenticationException();
 		}
 		//gets user
