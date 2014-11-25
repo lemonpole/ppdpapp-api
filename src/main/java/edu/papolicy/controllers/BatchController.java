@@ -20,6 +20,7 @@ import javax.security.sasl.AuthenticationException;
 public class BatchController {
 	@Autowired
 	private BatchDAO batchDAO;
+
 	@Autowired
 	private UserDAO userDAO;
 
@@ -31,7 +32,7 @@ public class BatchController {
 		} catch (AuthenticationException e) {
 			return null;
 		}
-		if (user.getRoleID() > 1){
+		if (user.getRole().getRoleID() > 1){
 			return batchDAO.list(); }
 		else{
 			return userDAO.findBatches(user.getEmail()); }

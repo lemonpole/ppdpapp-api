@@ -3,7 +3,6 @@ package edu.papolicy.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Date;
-import java.util.List;
 import javax.persistence.*;
 
 /**
@@ -20,9 +19,10 @@ public class User {
 	@Id
 	@Column(name="Email", nullable=false)
 	private String email;
-	
-	@Column(name="RoleID", nullable=false)
-	private int roleID;
+
+	@ManyToOne
+	@JoinColumn(name="RoleID")
+	private Role role;
 	
 	@Column(name="FirstName", nullable=false)
 	private String firstName;
@@ -45,7 +45,7 @@ public class User {
 	* Getters.
 	*/
 	public String getEmail(){ return this.email; }
-	public int getRoleID(){ return this.roleID; }
+	public Role getRole(){ return this.role; }
 	public String getFirstName(){ return this.firstName; }
 	public String getLastName(){ return this.lastName; }
 	public boolean getIsActive(){ return this.isActive; }
@@ -56,7 +56,7 @@ public class User {
 	* Setters.
 	*/
 	public void setEmail(String email){ this.email = email; }
-	public void setRoleID(int id){ this.roleID = id; }
+	public void setRole(Role roleObj){ this.role = roleObj; }
 	public void setFirstName(String firstName){ this.firstName = firstName; }
 	public void setLastName(String lastName){ this.lastName = lastName; }
 	public void setIsActive(boolean isActive){ this.isActive = isActive; }
