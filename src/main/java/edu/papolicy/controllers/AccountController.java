@@ -4,12 +4,10 @@ import edu.papolicy.daos.UserDAO;
 import edu.papolicy.models.User;
 import edu.papolicy.services.Account;
 
-import java.nio.charset.Charset;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,10 +28,10 @@ public class AccountController {
 		// Query database and ensure the email exists.
 		// On success, generate an access token with expiry date of 24 hours.
 		try {
-			User res = userDAO.find(values[0]);
-			Calendar c = Calendar.getInstance();
 			Date dt;
 			Timestamp ts;
+			User res = userDAO.find(values[0]);
+			Calendar c = Calendar.getInstance();
 
 			c.setTime(new Date());
 			c.add(Calendar.DATE, 1);

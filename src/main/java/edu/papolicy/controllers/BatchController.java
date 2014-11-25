@@ -4,38 +4,30 @@ import edu.papolicy.daos.BatchDAO;
 import edu.papolicy.daos.UserDAO;
 import edu.papolicy.models.Batch;
 import edu.papolicy.models.User;
-import java.util.List;
-
 import edu.papolicy.services.Account;
-import org.omg.CORBA.Request;
+import java.util.List;
+import javax.security.sasl.AuthenticationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.security.sasl.AuthenticationException;
-
 @RestController
 @RequestMapping("/batches")
 public class BatchController {
 	@Autowired private BatchDAO batchDAO;
+	@Autowired private UserDAO userDAO;
 	@Autowired private Account accountSvc;
 
-	@Autowired
-	private UserDAO userDAO;
-
 	@RequestMapping(method=RequestMethod.GET)
-	public List<Batch> getBatches(@RequestParam(value="token") String token){
+	public ResponseEntity getBatches(@RequestParam(value="token") String token){
 		User user = null;
-		try {
-			user = accountSvc.doAuthentication(token);
-		} catch (AuthenticationException e) {
-			return null;
-		}
-		if (user.getRole().getRoleID() > 1){
-			return batchDAO.list(); }
-		else{
-			return userDAO.findBatches(user.getEmail()); }
+		try { user = accountSvc.doAuthentication(token); }
+		catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
+
+		if(user.getRole().getRoleID() > 1) return new ResponseEntity<List<Batch>>(batchDAO.list(), HttpStatus.OK);
+		else return new ResponseEntity<List<Batch>>(userDAO.findBatches(user.getEmail()), HttpStatus.OK);
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/{id}")
