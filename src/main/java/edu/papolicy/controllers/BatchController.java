@@ -18,8 +18,8 @@ import javax.security.sasl.AuthenticationException;
 @RestController
 @RequestMapping("/batches")
 public class BatchController {
-	@Autowired
-	private BatchDAO batchDAO;
+	@Autowired private BatchDAO batchDAO;
+	@Autowired private Account accountSvc;
 
 	@Autowired
 	private UserDAO userDAO;
@@ -28,7 +28,7 @@ public class BatchController {
 	public List<Batch> getBatches(@RequestParam(value="token") String token){
 		User user = null;
 		try {
-			user = Account.doAuthentication(token);
+			user = accountSvc.doAuthentication(token);
 		} catch (AuthenticationException e) {
 			return null;
 		}

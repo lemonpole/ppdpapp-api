@@ -17,37 +17,36 @@ import javax.security.sasl.AuthenticationException;
 
 @Service
 public class Account {
-	@Autowired
-	private static UserDAO userDAO;
+	@Autowired private static UserDAO userDAO;
 
-	public static User parseAccessToken(String token) throws Exception {
+	public User parseAccessToken(String token) throws Exception {
 		return new User();
 	}
-	public static String[] parseAuthHeader(String header){
+	public String[] parseAuthHeader(String header){
 		String base64Credentials = header.substring("Basic".length()).trim();
 		String credentials = new String(Base64.decodeBase64(base64Credentials), Charset.forName("UTF-8"));
 		return credentials.split(":",2);
 	}
-	public static boolean isAccessTokenExpired(String token){
+	public boolean isAccessTokenExpired(String token){
 		// simply extracting the timestamp from the token string and passing it as a date to the overloaded method.
 		try {
 			String[] values = token.split(":", 2);
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 			Date dt = df.parse(values[1]);
 
-			return Account.isAccessTokenExpired(dt);
+			return this.isAccessTokenExpired(dt);
 		} catch(Exception e){
 			return true;
 		}
 	}
-	public static boolean isAccessTokenExpired(Date expiry){
+	public boolean isAccessTokenExpired(Date expiry){
 		// is today's timestamp past the timestamp recorded?
 		//Date today = new Date();
 		//return today.after(expiry);
 		return false;
 	}
 
-	public static User doAuthentication(String token) throws AuthenticationException{
+	public User doAuthentication(String token) throws AuthenticationException{
 		//check if token is expired, if not then throw exception
 		if (isAccessTokenExpired(token)) {
 			throw new AuthenticationException();

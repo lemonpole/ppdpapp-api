@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/account")
 public class AccountController {
-	@Autowired
-	private UserDAO userDAO;
+	@Autowired private UserDAO userDAO;
+	@Autowired private Account accountSvc;
 
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity postAccount(@RequestHeader(value = "Authorization") String authorization){
 		// Take Base64 encoded string from authorization header and extract username and password.
-		String[] values = Account.parseAuthHeader(authorization);
+		String[] values = accountSvc.parseAuthHeader(authorization);
 
 		// Query database and ensure the email exists.
 		// On success, generate an access token with expiry date of 24 hours.
