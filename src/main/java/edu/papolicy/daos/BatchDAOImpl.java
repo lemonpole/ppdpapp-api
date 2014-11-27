@@ -3,16 +3,14 @@ package edu.papolicy.daos;
 import edu.papolicy.models.Batch;
 import edu.papolicy.models.User;
 import java.util.List;
+import java.util.Map;
 
-import edu.papolicy.services.Account;
-import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 public class BatchDAOImpl implements BatchDAO {
-	@Autowired
-	private SessionFactory sessionFactory;
+	@Autowired private SessionFactory sessionFactory;
 
 	public BatchDAOImpl(SessionFactory sessionFactory){ this.sessionFactory = sessionFactory; }
 
@@ -40,5 +38,14 @@ public class BatchDAOImpl implements BatchDAO {
 	public Batch save(Batch batchObj){
 		sessionFactory.getCurrentSession().saveOrUpdate(batchObj);
 		return batchObj;
+	}
+
+	@Override
+	@Transactional
+	public List<Map<String, String>> findDocuments(int id){
+		// find batch.
+		// is it file_id?
+		// find the document types this batch consists of.
+		// return mapping of it.
 	}
 }

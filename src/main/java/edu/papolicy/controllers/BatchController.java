@@ -6,7 +6,7 @@ import edu.papolicy.models.Batch;
 import edu.papolicy.models.User;
 import edu.papolicy.services.Account;
 import java.util.List;
-import javax.security.sasl.AuthenticationException;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,6 +38,14 @@ public class BatchController {
 	@RequestMapping(method = RequestMethod.GET, value = "/{id}/users")
 	public List<User> getBatchUsers(@PathVariable int id){
 		return batchDAO.findUsers(id);
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/{id}/documents")
+	public List<Map<String, String>> getDocuments(@PathVariable int id){
+		// find batch.
+		// is it file_id?
+		// find the document types this batch consists of.
+		// return mapping of it.
 	}
 
 	@RequestMapping(method=RequestMethod.POST)
