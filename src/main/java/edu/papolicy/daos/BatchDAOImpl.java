@@ -40,12 +40,12 @@ public class BatchDAOImpl implements BatchDAO {
 		return batchObj;
 	}
 
-	@Override
+	/*@Override
 	@Transactional
 	public List<Map<String, String>> findDocuments(int id){
 		// find batch.
 		// is it file_id?
 		// find the document types this batch consists of.
 		// return mapping of it.
-	}
+	}*/
 }

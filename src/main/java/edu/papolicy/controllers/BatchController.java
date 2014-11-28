@@ -40,13 +40,13 @@ public class BatchController {
 		return batchDAO.findUsers(id);
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/{id}/documents")
+	/*@RequestMapping(method = RequestMethod.GET, value = "/{id}/documents")
 	public List<Map<String, String>> getDocuments(@PathVariable int id){
 		// find batch.
 		// is it file_id?
 		// find the document types this batch consists of.
 		// return mapping of it.
-	}
+	}*/
 
 	@RequestMapping(method=RequestMethod.POST)
 	public Batch postBatch(@RequestBody Batch batchObj){

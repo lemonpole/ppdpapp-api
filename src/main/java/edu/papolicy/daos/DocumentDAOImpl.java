@@ -36,13 +36,11 @@ public class DocumentDAOImpl implements DocumentDAO {
 
     @Override
     @Transactional
-    public List<Map<String, String>> findDocument(String docType, String id) {
+    public Object findDocument(String docType, String id) {
         Session sess = sessionFactory.getCurrentSession();
         SQLQuery query = sess.createSQLQuery("SELECT * FROM " + docType + " WHERE ID = " + id);
         query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
-        List<Map<String,String>> ResultsMapList=query.list();
-
-        return ResultsMapList;
+        return query.uniqueResult();
     }
     public List<Map<String, String>> findDocumentCodes(String docType, String id) {
         Session sess = sessionFactory.getCurrentSession();
