@@ -1,17 +1,18 @@
 package edu.papolicy.daos;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
-import com.sun.rowset.internal.Row;
-import org.hibernate.*;
+import org.hibernate.SessionFactory;
+import org.hibernate.Session;
+import org.hibernate.SQLQuery;
 import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 
 public class DocumentDAOImpl implements DocumentDAO {
-	@Autowired
-	private SessionFactory sessionFactory;
+	@Autowired private SessionFactory sessionFactory;
 
 	public DocumentDAOImpl(SessionFactory sessionFactory){
 		this.sessionFactory = sessionFactory;
@@ -46,9 +47,7 @@ public class DocumentDAOImpl implements DocumentDAO {
         Session sess = sessionFactory.getCurrentSession();
         SQLQuery query = sess.createSQLQuery("SELECT * FROM PAPolicy.UserPolicyCode WHERE documentID = " + id);
         query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
-        List<Map<String,String>> ResultsMapList=query.list();
-
-        return ResultsMapList;
+        return query.list();
     }
 
 }

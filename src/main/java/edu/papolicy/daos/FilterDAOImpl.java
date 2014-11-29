@@ -1,6 +1,7 @@
 package edu.papolicy.daos;
 
 import edu.papolicy.models.Filter;
+
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -9,8 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 public class FilterDAOImpl implements FilterDAO {
-    @Autowired
-    private SessionFactory sessionFactory;
+    @Autowired private SessionFactory sessionFactory;
 
     public FilterDAOImpl(SessionFactory sessionFactory){
         this.sessionFactory = sessionFactory;

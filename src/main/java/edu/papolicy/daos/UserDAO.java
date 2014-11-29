@@ -10,5 +10,5 @@ public interface UserDAO {
 	public User findByToken(String token);
 	public User save(User userObj);
 	public void update(User userObj);
-    List<Batch> findBatches(String email);
+    public List<Batch> findBatches(String email);
 }

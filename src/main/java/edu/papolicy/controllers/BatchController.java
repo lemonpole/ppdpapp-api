@@ -5,6 +5,7 @@ import edu.papolicy.daos.UserDAO;
 import edu.papolicy.models.Batch;
 import edu.papolicy.models.User;
 import edu.papolicy.services.Account;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,9 @@ public class BatchController {
 	}
 
 	@RequestMapping(method=RequestMethod.POST)
-	public Batch postBatch(@RequestBody Batch batchObj){ return batchDAO.save(batchObj); }
+	public ResponseEntity postBatch(@RequestBody Batch batchObj){
+		return new ResponseEntity<Batch>(batchDAO.save(batchObj), HttpStatus.OK);
+	}
 
     @RequestMapping(method = RequestMethod.POST, value = "/{id}/add/user")
     public ResponseEntity postAddUser(@PathVariable int id, @RequestBody User userObj){

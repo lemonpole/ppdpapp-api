@@ -57,8 +57,5 @@ public class FileController {
         } else {
             return new ResponseEntity<String>("file NOT upload", HttpStatus.NOT_FOUND);
         }
-
-
-
     }
 }

@@ -9,8 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 public class RoleDAOImpl implements RoleDAO {
-	@Autowired
-	private SessionFactory sessionFactory;
+	@Autowired private SessionFactory sessionFactory;
 
 	public RoleDAOImpl(SessionFactory sessionFactory){
 		this.sessionFactory = sessionFactory;
