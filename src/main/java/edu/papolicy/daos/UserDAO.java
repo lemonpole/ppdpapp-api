@@ -7,6 +7,7 @@ import java.util.List;
 public interface UserDAO {
     public List<User> list();
 	public User find(String email);
+	public User findByToken(String token);
 	public User save(User userObj);
 	public void update(User userObj);
     List<Batch> findBatches(String email);

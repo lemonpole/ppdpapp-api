@@ -2,16 +2,20 @@ package edu.papolicy.daos;
 
 import edu.papolicy.models.Batch;
 import edu.papolicy.models.User;
-import java.util.List;
 
-import org.hibernate.Criteria;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.hibernate.SQLQuery;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 public class BatchDAOImpl implements BatchDAO {
-	@Autowired
-	private SessionFactory sessionFactory;
+	@Autowired private SessionFactory sessionFactory;
 
 	public BatchDAOImpl(SessionFactory sessionFactory){ this.sessionFactory = sessionFactory; }
 
@@ -40,4 +44,6 @@ public class BatchDAOImpl implements BatchDAO {
 		sessionFactory.getCurrentSession().saveOrUpdate(batchObj);
 		return batchObj;
 	}
+
+
 }

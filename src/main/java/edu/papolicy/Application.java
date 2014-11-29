@@ -4,9 +4,9 @@ import edu.papolicy.daos.*;
 
 import javax.servlet.MultipartConfigElement;
 import javax.sql.DataSource;
+
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -32,6 +32,11 @@ public class Application {
 		dataSource.setUrl("jdbc:mysql://lemonpolesites.cloudapp.net:3306/PAPolicy");
 		dataSource.setUsername("capstone");
 		dataSource.setPassword("letusin");
+
+		//dataSource.setUrl("jdbc:mysql://localhost:3306/PAPolicy_Copy");
+		//dataSource.setUsername("tud07240");
+		//dataSource.setPassword("mu7Shie4");
+
 
 		return dataSource;
 	}
