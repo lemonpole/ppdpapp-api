@@ -40,18 +40,10 @@ public class BatchController {
 		return batchDAO.findUsers(id);
 	}
 
-	/*@RequestMapping(method = RequestMethod.GET, value = "/{id}/documents")
-	public List<Map<String, String>> getDocuments(@PathVariable int id){
-		// find batch.
-		// is it file_id?
-		// find the document types this batch consists of.
-		// return mapping of it.
-	}*/
+
 
 	@RequestMapping(method=RequestMethod.POST)
-	public Batch postBatch(@RequestBody Batch batchObj){
-		return batchDAO.save(batchObj);
-	}
+	public Batch postBatch(@RequestBody Batch batchObj){ return batchDAO.save(batchObj); }
 
     @RequestMapping(method = RequestMethod.POST, value = "/{id}/add/user")
     public ResponseEntity postAddUser(@PathVariable int id, @RequestBody User userObj){

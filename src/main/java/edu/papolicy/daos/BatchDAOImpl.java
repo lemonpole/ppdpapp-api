@@ -2,10 +2,15 @@ package edu.papolicy.daos;
 
 import edu.papolicy.models.Batch;
 import edu.papolicy.models.User;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.SQLQuery;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,12 +45,5 @@ public class BatchDAOImpl implements BatchDAO {
 		return batchObj;
 	}
 
-	/*@Override
-	@Transactional
-	public List<Map<String, String>> findDocuments(int id){
-		// find batch.
-		// is it file_id?
-		// find the document types this batch consists of.
-		// return mapping of it.
-	}*/
+
 }
