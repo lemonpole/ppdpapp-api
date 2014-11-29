@@ -6,7 +6,6 @@ import edu.papolicy.models.Batch;
 import edu.papolicy.models.User;
 import edu.papolicy.services.Account;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,8 +41,7 @@ public class BatchController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/{id}/documents")
 	public ResponseEntity getDocuments(@PathVariable int id){
-		batchDAO.findDocuments(id);
-		return new ResponseEntity<String>("WASSUP", HttpStatus.OK);
+		return new ResponseEntity<List<Object>>(batchDAO.findDocuments(id), HttpStatus.OK);
 	}
 
 	@RequestMapping(method=RequestMethod.POST)

@@ -29,14 +29,14 @@ public class Application {
 	public DataSource getDataSource(){
 		BasicDataSource dataSource = new BasicDataSource();
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		dataSource.setUrl("jdbc:mysql://lemonpolesites.cloudapp.net:3306/PAPolicy");
+
+		dataSource.setUrl("jdbc:mysql://lemonpolesites.cloudapp.net:3306/PAPolicy?zeroDateTimeBehavior=convertToNull");
 		dataSource.setUsername("capstone");
 		dataSource.setPassword("letusin");
 
-		//dataSource.setUrl("jdbc:mysql://localhost:3306/PAPolicy_Copy");
+		/*dataSource.setUrl("jdbc:mysql://localhost:3306/PAPolicy_Copy");
 		//dataSource.setUsername("tud07240");
-		//dataSource.setPassword("mu7Shie4");
-
+		dataSource.setPassword("mu7Shie4");*/
 
 		return dataSource;
 	}

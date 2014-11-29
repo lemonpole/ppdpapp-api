@@ -3,12 +3,12 @@ package edu.papolicy.daos;
 import edu.papolicy.models.Batch;
 import edu.papolicy.models.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,7 +45,7 @@ public class BatchDAOImpl implements BatchDAO {
 
 	@Override
 	@Transactional
-	public void findDocuments(int id){
+	public List<Object> findDocuments(int id){
 		// find batch.
 		// is it file_id?
 		// find the document types this batch consists of.
@@ -54,16 +54,13 @@ public class BatchDAOImpl implements BatchDAO {
 		Session sess = sessionFactory.getCurrentSession();
 
 		Batch batchObj = (Batch) sess.get(Batch.class, id);
-		query = sess.createSQLQuery("SELECT * BatchDocument WHERE BatchID = " + id);
-		List<Object> res = query.list();
+		query = sess.createSQLQuery("SELECT TableName FROM Tables WHERE ID = (SELECT TablesID FROM Batches WHERE BatchID = " + id + ")");
+		String docType = query.uniqueResult().toString();
 
-		//int docTypeID = (int) res.get(0).TablesID;
-		//query = sess.createSQLQuery("SELECT TableName FROM Tables WHERE ID = " + docTypeID);
-		//String docType = query.uniqueResult().TableName;
-
-		List<Object> docList = new ArrayList<Object>();
-		for(Object batchDoc: res){
-			// do work.'
-		}
+		query = sess.createSQLQuery("SELECT * FROM " + docType + " AS nc " +
+			"LEFT JOIN BatchDocument AS bd ON nc.ID = bd.DocumentID " +
+			"WHERE bd.BatchID = " + id);
+		query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+		return (List<Object>) query.list();
 	}
 }
