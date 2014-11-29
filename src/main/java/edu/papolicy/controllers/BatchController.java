@@ -6,7 +6,6 @@ import edu.papolicy.models.Batch;
 import edu.papolicy.models.User;
 import edu.papolicy.services.Account;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,16 +30,19 @@ public class BatchController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/{id}")
-	public Batch getBatch(@PathVariable int id){
-		return batchDAO.find(id);
+	public ResponseEntity getBatch(@PathVariable int id){
+		return new ResponseEntity<Object>(batchDAO.find(id), HttpStatus.OK);
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/{id}/users")
-	public List<User> getBatchUsers(@PathVariable int id){
-		return batchDAO.findUsers(id);
+	public ResponseEntity getBatchUsers(@PathVariable int id){
+		return new ResponseEntity<List<User>>(batchDAO.findUsers(id), HttpStatus.OK);
 	}
 
-
+	@RequestMapping(method = RequestMethod.GET, value = "/{id}/documents")
+	public ResponseEntity getDocuments(@PathVariable int id){
+		return new ResponseEntity<List<Object>>(batchDAO.findDocuments(id), HttpStatus.OK);
+	}
 
 	@RequestMapping(method=RequestMethod.POST)
 	public Batch postBatch(@RequestBody Batch batchObj){ return batchDAO.save(batchObj); }
