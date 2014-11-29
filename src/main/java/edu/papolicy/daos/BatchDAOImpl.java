@@ -5,12 +5,10 @@ import edu.papolicy.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +31,13 @@ public class BatchDAOImpl implements BatchDAO {
 
 	@Override
 	@Transactional
+	public Batch save(Batch batchObj){
+		sessionFactory.getCurrentSession().saveOrUpdate(batchObj);
+		return batchObj;
+	}
+
+	@Override
+	@Transactional
 	public List<User> findUsers(int id){
 		Batch batchObj = (Batch) sessionFactory.getCurrentSession().get(Batch.class, id);
 		return batchObj.getUsers();
@@ -40,10 +45,25 @@ public class BatchDAOImpl implements BatchDAO {
 
 	@Override
 	@Transactional
-	public Batch save(Batch batchObj){
-		sessionFactory.getCurrentSession().saveOrUpdate(batchObj);
-		return batchObj;
+	public void findDocuments(int id){
+		// find batch.
+		// is it file_id?
+		// find the document types this batch consists of.
+		// return mapping of it.
+		SQLQuery query = null;
+		Session sess = sessionFactory.getCurrentSession();
+
+		Batch batchObj = (Batch) sess.get(Batch.class, id);
+		query = sess.createSQLQuery("SELECT * BatchDocument WHERE BatchID = " + id);
+		List<Object> res = query.list();
+
+		//int docTypeID = (int) res.get(0).TablesID;
+		//query = sess.createSQLQuery("SELECT TableName FROM Tables WHERE ID = " + docTypeID);
+		//String docType = query.uniqueResult().TableName;
+
+		List<Object> docList = new ArrayList<Object>();
+		for(Object batchDoc: res){
+			// do work.'
+		}
 	}
-
-
 }
