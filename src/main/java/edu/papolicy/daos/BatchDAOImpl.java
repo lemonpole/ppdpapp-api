@@ -63,4 +63,17 @@ public class BatchDAOImpl implements BatchDAO {
 		query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 		return (List<Object>) query.list();
 	}
+
+	@Override
+	@Transactional
+	public void addDocument(int batchID, int docID) {
+		Session sess = sessionFactory.getCurrentSession();
+		SQLQuery query = sess.createSQLQuery("SELECT ID FROM Tables WHERE ID = (SELECT TablesID FROM Batches WHERE BatchID = " + batchID + ")");
+		String tableID = query.uniqueResult().toString();
+		query = sess.createSQLQuery("INSERT INTO BatchDocument (DocumentID, TablesID ,BatchID)" +
+				"VALUES ("+ docID + "," + tableID + "," + batchID + ");");
+		query.executeUpdate();
+	}
+
+
 }

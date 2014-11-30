@@ -10,4 +10,6 @@ public interface BatchDAO {
 	public Batch save(Batch batchObj);
 	public List<User> findUsers(int id);
 	public List<Object> findDocuments(int id);
+	public void addDocument(int batchID, int docID);
+
 }

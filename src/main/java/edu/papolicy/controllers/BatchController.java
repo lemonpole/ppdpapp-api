@@ -2,6 +2,7 @@ package edu.papolicy.controllers;
 
 import edu.papolicy.daos.BatchDAO;
 import edu.papolicy.daos.UserDAO;
+import edu.papolicy.daos.DocumentDAO;
 import edu.papolicy.models.Batch;
 import edu.papolicy.models.User;
 import edu.papolicy.services.Account;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class BatchController {
 	@Autowired private BatchDAO batchDAO;
 	@Autowired private UserDAO userDAO;
+	@Autowired private DocumentDAO documentDAO;
 	@Autowired private Account accountSvc;
 
 	@RequestMapping(method=RequestMethod.GET)
@@ -58,4 +60,9 @@ public class BatchController {
         batchDAO.save(batchObj);
         return new ResponseEntity<String>("user added, friend", HttpStatus.OK);
     }
+	@RequestMapping(method = RequestMethod.POST, value = "/{batchid}/add/document/{docid}")
+	public ResponseEntity postAddDocument(@PathVariable int batchid, @PathVariable int docid){
+		batchDAO.addDocument(batchid, docid);
+		return new ResponseEntity<String>("document added, pal", HttpStatus.OK);
+	}
 }
