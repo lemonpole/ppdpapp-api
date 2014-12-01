@@ -3,6 +3,7 @@ package edu.papolicy.daos;
 import java.util.List;
 import java.util.Map;
 
+import edu.papolicy.models.User;
 import org.hibernate.SessionFactory;
 import org.hibernate.Session;
 import org.hibernate.SQLQuery;
@@ -52,8 +53,21 @@ public class DocumentDAOImpl implements DocumentDAO {
 
     @Override
     @Transactional
-    public void addDocumentCode(String tableName, int docid, int codeid) {
-        
-    }
+    public void addDocumentCode(User user, String tableName, int docid, int codeid) {
+        Session sess = sessionFactory.getCurrentSession();
+        SQLQuery query = sess.createSQLQuery("SELECT ID FROM Tables WHERE TableName = '" + tableName +"'");
+        String tableID = query.uniqueResult().toString();
 
+        query = sess.createSQLQuery("INSERT INTO UserPolicyCode (Email, DocumentID ,TablesID, Code)" +
+                "VALUES ('"+user.getEmail() + "'," + docid + "," + tableID+ "," + codeid+ ");");
+        try {
+            query.executeUpdate();
+        }
+        catch (Exception e){
+            query = sess.createSQLQuery("UPDATE UserPolicyCode SET Code = " + codeid +
+                    " WHERE (Email = '" + user.getEmail() + "' and DocumentID = " + docid + " and TablesID = " + tableID + ");");
+            query.executeUpdate();
+        }
+
+    }
 }
