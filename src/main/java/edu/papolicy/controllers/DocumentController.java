@@ -29,10 +29,11 @@ public class DocumentController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{tableName}/{id}/codes")
-    public ResponseEntity getDocumentCodes(@PathVariable String tableName, @PathVariable String id, @RequestBody Code CodeObj){
+    public ResponseEntity getDocumentCodes(@PathVariable String tableName, @PathVariable String id){
         return new ResponseEntity<Object>(documentDAO.findDocumentCodes(tableName, id), HttpStatus.OK);
     }
-    @RequestMapping(method = RequestMethod.GET, value = "/{tableName}/{docid}/add/code/{codeid}")
+
+    @RequestMapping(method = RequestMethod.POST, value = "/{tableName}/{docid}/add/code/{codeid}")
     public ResponseEntity addDocumentCodes(@PathVariable String tableName, @PathVariable int docid, @PathVariable int codeid, @RequestParam(value="token") String token){
         //testing
         token = "k0nXf9nsC8ndoMrjgNZwDb8Lq42rHfET:1417047552017";

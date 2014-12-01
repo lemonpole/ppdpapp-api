@@ -44,6 +44,9 @@ public class DocumentDAOImpl implements DocumentDAO {
         query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
         return query.uniqueResult();
     }
+
+    @Override
+    @Transactional
     public List<Map<String, String>> findDocumentCodes(String docType, String id) {
         Session sess = sessionFactory.getCurrentSession();
         SQLQuery query = sess.createSQLQuery("SELECT * FROM PAPolicy.UserPolicyCode WHERE documentID = " + id);
