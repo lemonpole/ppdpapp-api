@@ -8,4 +8,5 @@ public interface DocumentDAO {
     public List<Object> findDocuments(String docType);
 	public Object findDocument(String docType, String id);
 	public List<Map<String, String>> findDocumentCodes(String docType, String id);
+	public void addDocumentCode(String tableName, int docid, int codeid);
 }

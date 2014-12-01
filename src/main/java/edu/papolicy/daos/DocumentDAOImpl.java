@@ -50,4 +50,10 @@ public class DocumentDAOImpl implements DocumentDAO {
         return query.list();
     }
 
+    @Override
+    @Transactional
+    public void addDocumentCode(String tableName, int docid, int codeid) {
+        
+    }
+
 }

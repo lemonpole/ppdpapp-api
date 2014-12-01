@@ -29,4 +29,9 @@ public class DocumentController {
     public ResponseEntity getDocumentCodes(@PathVariable String tableName, @PathVariable String id, @RequestBody Code CodeObj){
         return new ResponseEntity<Object>(documentDAO.findDocumentCodes(tableName, id), HttpStatus.OK);
     }
+    @RequestMapping(method = RequestMethod.POST, value = "/{tableName}/{docid}/add/code/{codeid}")
+    public ResponseEntity addDocumentCodes(@PathVariable String tableName, @PathVariable int docid, @RequestBody int codeid){
+        documentDAO.addDocumentCode(tableName, docid, codeid);
+        return new ResponseEntity<String>("document code added, bud", HttpStatus.OK);
+    }
 }
