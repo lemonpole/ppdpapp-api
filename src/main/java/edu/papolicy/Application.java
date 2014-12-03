@@ -112,4 +112,10 @@ public class Application {
 	public UserDAO getUserDao(SessionFactory sessionFactory) {
 		return new UserDAOImpl(sessionFactory);
 	}
+
+	@Autowired
+	@Bean(name = "tablesDao")
+	public TablesDAO getTablesDao(SessionFactory sessionFactory) {
+		return new TablesDAOImpl(sessionFactory);
+	}
 }
