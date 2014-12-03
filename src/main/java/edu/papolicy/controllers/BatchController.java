@@ -80,5 +80,10 @@ public class BatchController {
 		return new ResponseEntity<String>("document added, pal", HttpStatus.OK);
 	}
 
+	@RequestMapping(method = RequestMethod.DELETE, value = "/{batchid}/delete/document/{docid}")
+	public ResponseEntity deleteDocument(@PathVariable int batchid, @PathVariable int docid){
+		batchDAO.deleteDocument(batchid, docid);
+		return new ResponseEntity<String>("document deleted, chum", HttpStatus.OK);
+	}
 
 }
