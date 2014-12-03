@@ -66,9 +66,24 @@ public class BatchController {
         batchDAO.save(batchObj);
         return new ResponseEntity<String>("user added, friend", HttpStatus.OK);
     }
+
+	@RequestMapping(method = RequestMethod.DELETE, value = "/{id}/delete/user/{email:.+}")
+	public ResponseEntity deleteUser(@PathVariable int id, @PathVariable String email){
+		Batch batchObj = batchDAO.find(id);
+		batchDAO.deleteUser(id, email);
+		return new ResponseEntity<String>("user deleted, comrade", HttpStatus.OK);
+	}
+
 	@RequestMapping(method = RequestMethod.POST, value = "/{batchid}/add/document/{docid}")
 	public ResponseEntity postAddDocument(@PathVariable int batchid, @PathVariable int docid){
 		batchDAO.addDocument(batchid, docid);
 		return new ResponseEntity<String>("document added, pal", HttpStatus.OK);
 	}
+
+	@RequestMapping(method = RequestMethod.DELETE, value = "/{batchid}/delete/document/{docid}")
+	public ResponseEntity deleteDocument(@PathVariable int batchid, @PathVariable int docid){
+		batchDAO.deleteDocument(batchid, docid);
+		return new ResponseEntity<String>("document deleted, chum", HttpStatus.OK);
+	}
+
 }

@@ -93,5 +93,35 @@ public class BatchDAOImpl implements BatchDAO {
 		query.executeUpdate();
 	}
 
+	@Override
+	@Transactional
+	public void deleteDocument(int batchID, int docID) {
+		Session sess = sessionFactory.getCurrentSession();
+
+
+		SQLQuery query = sess.createSQLQuery("SELECT ID FROM Tables WHERE ID = (SELECT TablesID FROM Batches WHERE BatchID = " + batchID + ")");
+		String tableID = query.uniqueResult().toString();
+
+		// manually delete the associated docs from BatchDocuments since we manually added them.
+		try {
+			query = sess.createSQLQuery("DELETE FROM BatchDocument WHERE BatchID = " + batchID + " AND TablesID = " + tableID + " AND DocumentID = " + docID); //
+			query.executeUpdate();
+		} catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+	}
+
+	@Override
+	@Transactional
+	public void deleteUser(int batchID, String email) {
+		Session sess = sessionFactory.getCurrentSession();
+		try {
+			SQLQuery query = sess.createSQLQuery("DELETE FROM BatchUser WHERE BatchID = " + batchID + " AND Email = '" + email + "'");
+			query.executeUpdate();
+		} catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+	}
+
 
 }
