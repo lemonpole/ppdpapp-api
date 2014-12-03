@@ -38,6 +38,18 @@ public class BatchDAOImpl implements BatchDAO {
 
 	@Override
 	@Transactional
+	public void delete(int id){
+		Session sess = sessionFactory.getCurrentSession();
+		Batch batchObj = (Batch) sess.get(Batch.class, id);
+		try {
+			sess.delete(batchObj);
+		} catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+	}
+
+	@Override
+	@Transactional
 	public List<User> findUsers(int id){
 		Batch batchObj = (Batch) sessionFactory.getCurrentSession().get(Batch.class, id);
 		return batchObj.getUsers();

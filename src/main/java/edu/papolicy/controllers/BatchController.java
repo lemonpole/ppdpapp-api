@@ -52,6 +52,12 @@ public class BatchController {
 		return new ResponseEntity<Batch>(batchDAO.save(batchObj), HttpStatus.OK);
 	}
 
+	@RequestMapping(method=RequestMethod.DELETE, value = "/{id}")
+	public ResponseEntity deleteBatch(@PathVariable int id){
+		batchDAO.delete(id);
+		return new ResponseEntity<String>("batch deleted, amigo.", HttpStatus.OK);
+	}
+
     @RequestMapping(method = RequestMethod.POST, value = "/{id}/add/user")
     public ResponseEntity postAddUser(@PathVariable int id, @RequestBody User userObj){
         Batch batchObj = batchDAO.find(id);
