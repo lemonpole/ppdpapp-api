@@ -1,6 +1,7 @@
 package edu.papolicy.models;
 
 import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;

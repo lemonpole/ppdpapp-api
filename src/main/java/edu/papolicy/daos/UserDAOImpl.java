@@ -2,19 +2,18 @@ package edu.papolicy.daos;
 
 import edu.papolicy.models.Batch;
 import edu.papolicy.models.User;
+
 import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 public class UserDAOImpl implements UserDAO {
-    @Autowired
-    private SessionFactory sessionFactory;
+    @Autowired private SessionFactory sessionFactory;
 
     public UserDAOImpl(SessionFactory sessionFactory){
         this.sessionFactory = sessionFactory;
@@ -59,5 +58,6 @@ public class UserDAOImpl implements UserDAO {
     @Override
     @Transactional
     public List<Batch> findBatches(String email){
-        return(List<Batch>) sessionFactory.getCurrentSession().createSQLQuery("Select * from Batches").addEntity(Batch.class).list();}
+        return (List<Batch>) sessionFactory.getCurrentSession().createSQLQuery("Select * from Batches").addEntity(Batch.class).list();
+	}
 }

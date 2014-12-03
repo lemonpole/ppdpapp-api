@@ -1,12 +1,9 @@
 package edu.papolicy.models;
 
-import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.Column;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  * Newspaper entity.
@@ -29,7 +26,6 @@ public class Newspaper {
     public Integer getNewspaperID() {
         return NewspaperID;
     }
-
     public void setNewspaperID(Integer newspaperID) {
         NewspaperID = newspaperID;
     }
@@ -37,7 +33,6 @@ public class Newspaper {
     public Integer getName() {
         return name;
     }
-
     public void setName(Integer name) {
         this.name = name;
     }

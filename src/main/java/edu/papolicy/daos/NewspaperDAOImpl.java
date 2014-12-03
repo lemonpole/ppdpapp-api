@@ -9,8 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 public class NewspaperDAOImpl implements NewspaperDAO {
-    @Autowired
-    private SessionFactory sessionFactory;
+    @Autowired private SessionFactory sessionFactory;
 
     public NewspaperDAOImpl(SessionFactory sessionFactory){
         this.sessionFactory = sessionFactory;

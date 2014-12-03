@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/filters")
 public class FilterController {
-    @Autowired
-    private FilterDAO FilterDAO;
+    @Autowired private FilterDAO FilterDAO;
 
     @RequestMapping(method=RequestMethod.GET)
     public List<Filter> getFilters(){ return FilterDAO.list();}

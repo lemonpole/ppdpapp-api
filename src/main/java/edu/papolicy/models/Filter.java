@@ -1,12 +1,9 @@
 package edu.papolicy.models;
 
-import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.Column;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  * File entity.
@@ -16,7 +13,6 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name="Filters")
 public class Filter {
-
     /**
      * Annotated properties/fields.
      */
@@ -42,16 +38,12 @@ public class Filter {
     @Column(name="AdditionalParam", nullable=false)
     private String additionalParam;
 
-
-
     /**
      * getters/setters
      */
-
     public Integer getID() {
         return ID;
     }
-
     public void setID(Integer ID) {
         this.ID = ID;
     }
@@ -59,7 +51,6 @@ public class Filter {
     public Integer getTableID() {
         return tableID;
     }
-
     public void setTableID(Integer tableID) {
         this.tableID = tableID;
     }
@@ -67,7 +58,6 @@ public class Filter {
     public String getColumnName() {
         return columnName;
     }
-
     public void setColumnName(String columnName) {
         this.columnName = columnName;
     }
@@ -75,7 +65,6 @@ public class Filter {
     public String getDescription() {
         return description;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }
@@ -83,7 +72,6 @@ public class Filter {
     public String getFilterClass() {
         return filterClass;
     }
-
     public void setFilterClass(String filterClass) {
         this.filterClass = filterClass;
     }
@@ -91,7 +79,6 @@ public class Filter {
     public String getTableReference() {
         return tableReference;
     }
-
     public void setTableReference(String tableReference) {
         this.tableReference = tableReference;
     }
@@ -99,7 +86,6 @@ public class Filter {
     public String getAdditionalParam() {
         return additionalParam;
     }
-
     public void setAdditionalParam(String additionalParam) {
         this.additionalParam = additionalParam;
     }

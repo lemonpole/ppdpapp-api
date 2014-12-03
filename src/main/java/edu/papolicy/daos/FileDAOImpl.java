@@ -9,8 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public class FileDAOImpl implements FileDAO {
-    @Autowired
-    private SessionFactory sessionFactory;
+    @Autowired private SessionFactory sessionFactory;
 
     public FileDAOImpl(SessionFactory sessionFactory){
         this.sessionFactory = sessionFactory;
@@ -18,11 +17,15 @@ public class FileDAOImpl implements FileDAO {
 
     @Override
     @Transactional
-    public List<File> list(){ return (List<File>) sessionFactory.getCurrentSession().createCriteria(File.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list(); }
+    public List<File> list(){
+		return (List<File>) sessionFactory.getCurrentSession().createCriteria(File.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+	}
 
 	@Override
 	@Transactional
-	public File find(int id){ return (File) sessionFactory.getCurrentSession().get(File.class, id); }
+	public File find(int id){
+		return (File) sessionFactory.getCurrentSession().get(File.class, id);
+	}
 
 	@Override
 	@Transactional

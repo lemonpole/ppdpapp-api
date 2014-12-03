@@ -2,6 +2,7 @@ package edu.papolicy.controllers;
 
 import edu.papolicy.daos.NewspaperDAO;
 import edu.papolicy.models.Newspaper;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RestController
 @RequestMapping("/Newspapers")
 public class NewspaperController {
-    @Autowired
-    private NewspaperDAO NewspaperDAO;
+    @Autowired private NewspaperDAO NewspaperDAO;
 
     @RequestMapping(method=RequestMethod.GET)
     public List<Newspaper> getNewspapers(){
