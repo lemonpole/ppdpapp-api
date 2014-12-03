@@ -68,7 +68,7 @@ public class BatchController {
     }
 
 	@RequestMapping(method = RequestMethod.DELETE, value = "/{id}/delete/user")
-	public ResponseEntity postDeleteUser(@PathVariable int id, @RequestBody User userObj){
+	public ResponseEntity deleteUser(@PathVariable int id, @RequestBody User userObj){
 		Batch batchObj = batchDAO.find(id);
 		batchDAO.deleteUser(id, userObj.getEmail());
 		return new ResponseEntity<String>("user deleted, comrade", HttpStatus.OK);
@@ -80,6 +80,5 @@ public class BatchController {
 		return new ResponseEntity<String>("document added, pal", HttpStatus.OK);
 	}
 
-	
 
 }
