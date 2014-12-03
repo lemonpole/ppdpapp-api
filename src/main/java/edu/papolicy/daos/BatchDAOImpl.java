@@ -93,5 +93,17 @@ public class BatchDAOImpl implements BatchDAO {
 		query.executeUpdate();
 	}
 
+	@Override
+	@Transactional
+	public void deleteUser(int batchID, String email) {
+		Session sess = sessionFactory.getCurrentSession();
+		try {
+			SQLQuery query = sess.createSQLQuery("DELETE FROM BatchUser WHERE BatchID = " + batchID + " AND Email = '" + email + "'");
+			query.executeUpdate();
+		} catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+	}
+
 
 }

@@ -12,5 +12,5 @@ public interface BatchDAO {
 	public List<User> findUsers(int id);
 	public List<Object> findDocuments(int id);
 	public void addDocument(int batchID, int docID);
-
+	public void deleteUser(int batchID, String email);
 }
