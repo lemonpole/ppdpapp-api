@@ -41,8 +41,14 @@ public class BatchDAOImpl implements BatchDAO {
 	public void delete(int id){
 		Session sess = sessionFactory.getCurrentSession();
 		Batch batchObj = (Batch) sess.get(Batch.class, id);
+
+		try { sess.delete(batchObj); }
+		catch(Exception e){ System.out.println(e.getMessage()); }
+
+		// manually delete the associated docs from BatchDocuments since we manually added them.
 		try {
-			sess.delete(batchObj);
+			SQLQuery query = sess.createSQLQuery("DELETE FROM BatchDocument WHERE BatchID = " + id);
+			query.executeUpdate();
 		} catch(Exception e){
 			System.out.println(e.getMessage());
 		}
