@@ -11,31 +11,39 @@ import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-
 public class DocumentDAOImpl implements DocumentDAO {
 	@Autowired private SessionFactory sessionFactory;
+    @Autowired private TablesDAO tablesDAO;
 
 	public DocumentDAOImpl(SessionFactory sessionFactory){
 		this.sessionFactory = sessionFactory;
 	}
-
 	@Override
 	@Transactional
 	public Object find(String docType, int id){
 		Object docObj = sessionFactory.getCurrentSession().get(Object.class, id);
 		return docObj;
 	}
-
 	@Override
     @Transactional
     public List<Object> findDocuments(String docType) {
         Session sess = sessionFactory.getCurrentSession();
-        SQLQuery query = sess.createSQLQuery("SELECT * FROM " + docType + " Order By ID Desc LIMIT 10");
-
+        SQLQuery query = sess.createSQLQuery("SELECT * FROM " + docType + " Order By ID Desc");
         query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
         return query.list();
     }
-
+    @Override
+    @Transactional
+    public List<Object> findDocumentsNoBatch(String docType) {
+        Session sess = sessionFactory.getCurrentSession();
+        SQLQuery query = sess.createSQLQuery("SELECT ID FROM Tables WHERE TableName = '" + docType +"'");
+        String tableID = query.uniqueResult().toString();
+        query = sess.createSQLQuery("SELECT * FROM " + docType + " ns " +
+                "WHERE ns.ID NOT IN (SELECT bd.DocumentID FROM BatchDocument bd " +
+                "WHERE bd.TablesID = " + tableID + ")");
+        query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+        return query.list();
+    }
     @Override
     @Transactional
     public Object findDocument(String docType, String id) {
@@ -44,7 +52,6 @@ public class DocumentDAOImpl implements DocumentDAO {
         query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
         return query.uniqueResult();
     }
-
     @Override
     @Transactional
     public List<Map<String, String>> findDocumentCodes(String docType, String id) {
@@ -53,24 +60,19 @@ public class DocumentDAOImpl implements DocumentDAO {
         query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
         return query.list();
     }
-
     @Override
     @Transactional
     public void addDocumentCode(User user, String tableName, int docid, int codeid) {
         Session sess = sessionFactory.getCurrentSession();
         SQLQuery query = sess.createSQLQuery("SELECT ID FROM Tables WHERE TableName = '" + tableName +"'");
         String tableID = query.uniqueResult().toString();
-
         query = sess.createSQLQuery("INSERT INTO UserPolicyCode (Email, DocumentID ,TablesID, Code)" +
                 "VALUES ('"+user.getEmail() + "'," + docid + "," + tableID+ "," + codeid+ ");");
-        try {
-            query.executeUpdate();
-        }
+        try {query.executeUpdate(); }
         catch (Exception e){
             query = sess.createSQLQuery("UPDATE UserPolicyCode SET Code = " + codeid +
                     " WHERE (Email = '" + user.getEmail() + "' and DocumentID = " + docid + " and TablesID = " + tableID + ");");
             query.executeUpdate();
         }
-
     }
 }
