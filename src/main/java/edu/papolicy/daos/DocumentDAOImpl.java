@@ -40,7 +40,7 @@ public class DocumentDAOImpl implements DocumentDAO {
         String tableID = query.uniqueResult().toString();
         query = sess.createSQLQuery("SELECT * FROM " + docType + " ns " +
                 "WHERE ns.ID NOT IN (SELECT bd.DocumentID FROM BatchDocument bd " +
-                "WHERE bd.TablesID = " + tableID + ")");
+                "WHERE bd.TablesID = " + tableID + ") Order By ID Desc");
         query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
         return query.list();
     }
