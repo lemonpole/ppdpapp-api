@@ -27,11 +27,11 @@ public class DocumentController {
         return new ResponseEntity<List<Object>>(documentDAO.findDocumentsNoBatch(tableName), HttpStatus.OK);
     }
     @RequestMapping(method = RequestMethod.GET, value = "/{tableName}/{id}")
-    public ResponseEntity getDocument(@PathVariable String tableName, @PathVariable String id){
+    public ResponseEntity getDocument(@PathVariable String tableName, @PathVariable int id){
         return new ResponseEntity<Object>(documentDAO.findDocument(tableName, id), HttpStatus.OK);
     }
     @RequestMapping(method = RequestMethod.GET, value = "/{tableName}/{id}/codes")
-    public ResponseEntity getDocumentCodes(@PathVariable String tableName, @PathVariable String id){
+    public ResponseEntity getDocumentCodes(@PathVariable String tableName, @PathVariable int id){
         return new ResponseEntity<Object>(documentDAO.findDocumentCodes(tableName, id), HttpStatus.OK);
     }
     @RequestMapping(method = RequestMethod.POST, value = "/{tableName}/{docid}/add/code/{codeid}")

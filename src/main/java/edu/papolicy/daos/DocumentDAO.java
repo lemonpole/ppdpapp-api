@@ -9,7 +9,7 @@ public interface DocumentDAO {
 	public Object find(String docType, int id);
     public List<Object> findDocuments(String docType);
 	public List<Object> findDocumentsNoBatch(String docType);
-	public Object findDocument(String docType, String id);
-	public List<Map<String, String>> findDocumentCodes(String docType, String id);
+	public Object findDocument(String docType, int id);
+	public List<Map<String, String>> findDocumentCodes(String docType, int id);
 	public void addDocumentCode(User user, String tableName, int docid, int codeid);
 }
