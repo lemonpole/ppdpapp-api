@@ -66,48 +66,51 @@ public class DocumentDAOImpl implements DocumentDAO {
     public void addDocumentCode(String email, String tableName, int docid, int batchid, int codeid) {
         //set some initial variables to make the logic below more straightforward
         Session sess = sessionFactory.getCurrentSession();
-        SQLQuery query = sess.createSQLQuery("SELECT TableName FROM Tables WHERE ID = (SELECT TablesID FROM Batches WHERE TableName = " + tableName + ")");
+        SQLQuery query = sess.createSQLQuery("SELECT ID FROM Tables WHERE TableName = '" + tableName + "'");
         Integer tableID = (Integer) query.uniqueResult();
-        query = sess.createSQLQuery("SELECT Num FROM TablesMatchingCodesNum WHERE ID = " + tableID);
+        query = sess.createSQLQuery("SELECT Num FROM TablesMatchingCodesNum WHERE Tables_ID = " + tableID);
         Integer maxNumOfCodes = (Integer) query.uniqueResult();
 
         //take the batchID
         //count how many UserPolicyCodes there currently are for that document/table.
-            //if the maxCodes = numberOfCodes
-                //set the final code
-                //insert into UserPolicyCode
-            //endIf
+        //if the maxCodes = numberOfCodes
+        //set the final code
+        //insert into UserPolicyCode
+        //endIf
         //if there are too many codes
-            //throw exception
+        //throw exception
         //
 
 
-        query = sess.createSQLQuery("SELECT Code * FROM UserPolicyCode WHERE DocumentID = " + docid + " AND TablesID = " + tableID);
+        query = sess.createSQLQuery("SELECT Code FROM UserPolicyCode WHERE DocumentID = " + docid + " AND TablesID = " + tableID);
         query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
         List<Integer> userPolicyCodes = query.list();
         Integer matches = 0;
-        if (userPolicyCodes.size() == maxNumOfCodes){ //if there is already the max value of userPolicyCodes in the database, this must be a tiebreak.
+        if (userPolicyCodes.size() == maxNumOfCodes) { //if there is already the max value of userPolicyCodes in the database, this must be a tiebreak.
             //insert into UserPolicyCode
+            insertUserPolicyCode(email, tableName, docid, batchid, codeid);
             //set the final code
-        }
-        else if (userPolicyCodes.size() < maxNumOfCodes){ // enter this logic-block if the size of less than our maxNumOfCodes
-            for (int i = 0; i <= userPolicyCodes.size() -1; i++){ // keep looping while i is less than the size minus 1 (to avoid nullpointer error)
-                if (userPolicyCodes.get(i) == codeid){ // we are comparing to the codeid submitted by the user
+            updateDocumentFinalCode(tableName, docid, codeid);
+        } else if (userPolicyCodes.size() < maxNumOfCodes) { // enter this logic-block if the size of less than our maxNumOfCodes
+            for (int i = 0; i <= userPolicyCodes.size() - 1; i++) { // keep looping while i is less than the size minus 1 (to avoid nullpointer error)
+                if (userPolicyCodes.get(i) == codeid) { // we are comparing to the codeid submitted by the user
                     matches++;
                     // if we have reached the number of matches needed, exit the loop.
-                    if(matches == maxNumOfCodes) break;
+                    if (matches == maxNumOfCodes) break;
                 }
             }
-
             // check again and do what needs to be done.
-            if (matches == maxNumOfCodes){
+            if (matches == maxNumOfCodes) {
                 //insert into UserPolicyCode
+                insertUserPolicyCode(email, tableName, docid, batchid, codeid);
                 //set final code
-            }
-            else{
+                updateDocumentFinalCode(tableName, docid, codeid);
+            } else {
                 //insert into UserPolicyCode
+                insertUserPolicyCode(email, tableName, docid, batchid, codeid);
             }
         }
+    }
 
     //ignore the shit below
 
@@ -145,8 +148,29 @@ public class DocumentDAOImpl implements DocumentDAO {
 
  */
 
-
+    public void insertUserPolicyCode(String email, String tableName, int docid, int batchid, int codeid) {
+        Session sess = sessionFactory.getCurrentSession();
+        SQLQuery query = sess.createSQLQuery("SELECT ID FROM Tables WHERE TableName = '" + tableName + "'");
+        Integer tableID = (Integer) query.uniqueResult();
+        query = sess.createSQLQuery("INSERT INTO UserPolicyCode (Email, DocumentID ,TablesID, BatchID, Code)" +
+                "VALUES ('" + email + "'," + docid + "," + tableID + "," + batchid + "," + codeid+ ");");
+        try {query.executeUpdate(); }
+        catch (Exception e){
+            query = sess.createSQLQuery("UPDATE UserPolicyCode SET Code = " + codeid +
+                    " WHERE (Email = '" + email + "' and DocumentID = " + docid + " and TablesID = " + tableID + " AND BatchID = " + batchid + ");");
+            query.executeUpdate();
+        }
     }
+
+    public void updateDocumentFinalCode(String tableName, int docid, int codeid){
+        Session sess = sessionFactory.getCurrentSession();
+        SQLQuery query = sess.createSQLQuery("SELECT ID FROM Tables WHERE TableName = '" + tableName + "'");
+        Integer tableID = (Integer) query.uniqueResult();
+        query = sess.createSQLQuery("UPDATE " + tableName + " SET Code = " + codeid +
+                " WHERE ID = " + docid);
+        query.executeUpdate();
+    }
+
     @Override
     @Transactional
     public List<Object> findDocumentsNoCodes(String tableName, int batchid, String email) {
