@@ -64,15 +64,26 @@ public class DocumentDAOImpl implements DocumentDAO {
     @Transactional
     public void addDocumentCode(User user, String tableName, int docid, int codeid) {
         Session sess = sessionFactory.getCurrentSession();
-        SQLQuery query = sess.createSQLQuery("SELECT ID FROM Tables WHERE TableName = '" + tableName +"'");
-        String tableID = query.uniqueResult().toString();
-        query = sess.createSQLQuery("INSERT INTO UserPolicyCode (Email, DocumentID ,TablesID, Code)" +
-                "VALUES ('"+user.getEmail() + "'," + docid + "," + tableID+ "," + codeid+ ");");
-        try {query.executeUpdate(); }
-        catch (Exception e){
-            query = sess.createSQLQuery("UPDATE UserPolicyCode SET Code = " + codeid +
-                    " WHERE (Email = '" + user.getEmail() + "' and DocumentID = " + docid + " and TablesID = " + tableID + ");");
-            query.executeUpdate();
-        }
+        SQLQuery query = sess.createSQLQuery("INSERT INTO UserPolicyCode (Email, DocumentID ,TablesID, BatchID, Code)" +
+                "VALUES ('admin@temple.edu'," + docid + ", (SELECT ID FROM Tables WHERE TableName = '" + tableName + "'), 1," + codeid+ ");");
+                //"VALUES ('"+user.getEmail() + "'," + docid + ", (SELECT ID FROM Tables WHERE TableName = '" + tableName + "')," + codeid+ ");");
+        query.executeUpdate();
+        //try {query.executeUpdate(); }
+        //catch (Exception e){
+        //    query = sess.createSQLQuery("UPDATE UserPolicyCode SET Code = " + codeid +
+        //            " WHERE (Email = '" + user.getEmail() + "' and DocumentID = " + docid + " and TablesID = (SELECT ID FROM Tables WHERE TableName = '" + tableName + "'));");
+        //    query.executeUpdate();
+        //}
+    }
+
+    @Override
+    @Transactional
+    public List<Object> findDocumentsNoCodes(String tableName, int batchid, String email) {
+        Session sess = sessionFactory.getCurrentSession();
+        SQLQuery query = sess.createSQLQuery("SELECT * FROM " + tableName +
+                " WHERE ID NOT IN(SELECT DocumentID FROM UserPolicyCode" +
+                "    WHERE Email = '" + email + "' AND BatchID = " + batchid +");");
+        query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+        return query.list();
     }
 }

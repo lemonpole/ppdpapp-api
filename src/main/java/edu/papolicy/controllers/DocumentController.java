@@ -1,6 +1,7 @@
 package edu.papolicy.controllers;
 
 import edu.papolicy.daos.DocumentDAO;
+import edu.papolicy.daos.UserDAO;
 import edu.papolicy.models.Code;
 
 import edu.papolicy.models.User;
@@ -16,6 +17,7 @@ import java.util.List;
 @RequestMapping("/documents")
 public class DocumentController {
 	@Autowired DocumentDAO documentDAO;
+    @Autowired private UserDAO userDAO;
     @Autowired private Account accountSvc;
 
     @RequestMapping(method = RequestMethod.GET, value = "/{tableName}")
@@ -43,5 +45,14 @@ public class DocumentController {
         catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
         documentDAO.addDocumentCode(user, tableName, docid, codeid);
         return new ResponseEntity<String>("document code added, bud", HttpStatus.OK);
+    }
+    @RequestMapping(method = RequestMethod.GET, value = "/{tableName}/{batchId}/nocodes")
+    public ResponseEntity getDocumentNoCodes(@PathVariable String tableName, @PathVariable int batchid, @RequestParam(value="token") String token){
+        //testing
+        token = "k0nXf9nsC8ndoMrjgNZwDb8Lq42rHfET:1417047552017";
+        User user = null;
+        try { user = accountSvc.doAuthentication(token); }
+        catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
+        return new ResponseEntity<List<Object>>(documentDAO.findDocumentsNoCodes(tableName, id, user.getEmail()), HttpStatus.OK);
     }
 }
