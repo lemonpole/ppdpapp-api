@@ -85,7 +85,6 @@ public class DocumentDAOImpl implements DocumentDAO {
                         "WHERE DocumentID NOT IN( " +
                         "SELECT DocumentID FROM UserPolicyCode " +
                         "WHERE Email = '" + email + "' AND BatchID = " + batchid + "));");
-
         query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
         return query.list();
     }
