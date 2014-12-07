@@ -79,13 +79,10 @@ public class DocumentDAOImpl implements DocumentDAO {
         //endIf
         //if there are too many codes
         //throw exception
-        //
-
 
         query = sess.createSQLQuery("SELECT Code FROM UserPolicyCode WHERE DocumentID = " + docid + " AND TablesID = " + tableID);
-        query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
         List<Integer> userPolicyCodes = query.list();
-        Integer matches = 0;
+        Integer matches = 1; //because the codeid always matches itsself
         if (userPolicyCodes.size() == maxNumOfCodes) { //if there is already the max value of userPolicyCodes in the database, this must be a tiebreak.
             //insert into UserPolicyCode
             insertUserPolicyCode(email, tableName, docid, batchid, codeid);
@@ -132,6 +129,7 @@ public class DocumentDAOImpl implements DocumentDAO {
         query = sess.createSQLQuery("UPDATE " + tableName + " SET Code = " + codeid +
                 " WHERE ID = " + docid);
         query.executeUpdate();
+        //todo: set BatchDocument as complete
     }
 
     @Override
@@ -142,6 +140,7 @@ public class DocumentDAOImpl implements DocumentDAO {
                         "SELECT DocumentID FROM BatchDocument WHERE DocumentID NOT IN(" +
                         "SELECT DocumentID FROM UserPolicyCode " +
                         "WHERE Email = '" + email + "' AND BatchID = " + batchid + "));");
+        //todo: fix this shit :( not taking the batchID into consideration?
         query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
         return query.list();
     }
