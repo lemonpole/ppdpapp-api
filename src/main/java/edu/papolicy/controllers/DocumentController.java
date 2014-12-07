@@ -46,7 +46,7 @@ public class DocumentController {
         documentDAO.addDocumentCode(user, tableName, docid, codeid);
         return new ResponseEntity<String>("document code added, bud", HttpStatus.OK);
     }
-    @RequestMapping(method = RequestMethod.GET, value = "/{tableName}/{batchId}/nocodes")
+    @RequestMapping(method = RequestMethod.GET, value = "/{tableName}/batch/{batchId}/nocodes")
     public ResponseEntity getDocumentNoCodes(@PathVariable String tableName, @PathVariable int batchid, @RequestParam(value="token") String token){
         //testing
         token = "k0nXf9nsC8ndoMrjgNZwDb8Lq42rHfET:1417047552017";
