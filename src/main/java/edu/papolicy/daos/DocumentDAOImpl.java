@@ -37,11 +37,10 @@ public class DocumentDAOImpl implements DocumentDAO {
     }
     @Override
     @Transactional
-    public List<Object> findDocumentsNoBatch(String docType) {
+    public List<Object> findDocumentsNoBatch(String tableName) {
         Session sess = sessionFactory.getCurrentSession();
-        SQLQuery query = sess.createSQLQuery("SELECT ID FROM Tables WHERE TableName = '" + docType +"'");
-        String tableID = query.uniqueResult().toString();
-        query = sess.createSQLQuery("SELECT * FROM " + docType + " ns " +
+        Integer tableID = tablesIDByName(tableName);
+        SQLQuery query = sess.createSQLQuery("SELECT * FROM " + tableName + " ns " +
                 "WHERE ns.ID NOT IN (SELECT bd.DocumentID FROM BatchDocument bd " +
                 "WHERE bd.TablesID = " + tableID + ") Order By ID Desc");
         query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
@@ -68,10 +67,10 @@ public class DocumentDAOImpl implements DocumentDAO {
     public void addDocumentCode(String email, String tableName, int docid, int batchid, int codeid) {
         //set some initial variables to make the logic below more straightforward
         Session sess = sessionFactory.getCurrentSession();
-        SQLQuery query = sess.createSQLQuery("SELECT ID FROM Tables WHERE TableName = '" + tableName + "'");
-        Integer tableID = (Integer) query.uniqueResult();
-        query = sess.createSQLQuery("SELECT Num FROM TablesMatchingCodesNum WHERE Tables_ID = " + tableID);
+        Integer tableID = tablesIDByName(tableName);
+        SQLQuery query = sess.createSQLQuery("SELECT Num FROM TablesMatchingCodesNum WHERE Tables_ID = " + tableID);
         Integer maxNumOfCodes = (Integer) query.uniqueResult();
+
 
         //take the batchID
         //count how many UserPolicyCodes there currently are for that document/table.
@@ -110,32 +109,6 @@ public class DocumentDAOImpl implements DocumentDAO {
             }
         }
     }
-    public void insertUserPolicyCode(String email, String tableName, int docid, int batchid, int codeid) {
-        Session sess = sessionFactory.getCurrentSession();
-        SQLQuery query = sess.createSQLQuery("SELECT ID FROM Tables WHERE TableName = '" + tableName + "'");
-        Integer tableID = (Integer) query.uniqueResult();
-        query = sess.createSQLQuery("INSERT INTO UserPolicyCode (Email, DocumentID ,TablesID, BatchID, Code)" +
-                "VALUES ('" + email + "'," + docid + "," + tableID + "," + batchid + "," + codeid+ ");");
-        try {query.executeUpdate(); }
-        catch (Exception e){
-            query = sess.createSQLQuery("UPDATE UserPolicyCode SET Code = " + codeid +
-                    " WHERE (Email = '" + email + "' and DocumentID = " + docid + " and TablesID = " + tableID + " AND BatchID = " + batchid + ");");
-            query.executeUpdate();
-        }
-    }
-
-    public void updateDocumentFinalCode(String tableName, int docid, int batchid, int codeid){
-        Session sess = sessionFactory.getCurrentSession();
-        SQLQuery query = sess.createSQLQuery("SELECT ID FROM Tables WHERE TableName = '" + tableName + "'");
-        Integer tableID = (Integer) query.uniqueResult();
-        query = sess.createSQLQuery("UPDATE " + tableName + " SET Code = " + codeid +
-                " WHERE ID = " + docid);
-        query.executeUpdate();
-        //todo: set BatchDocument as complete
-        String dateString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        query = sess.createSQLQuery("UPDATE BatchDocument SET DateCompleted = '" + dateString.toString() + "' WHERE DocumentID = " + docid + " AND TablesID = " + tableID + " AND BatchID = " + batchid);
-        query.executeUpdate();
-    }
 
     @Override
     @Transactional
@@ -148,5 +121,41 @@ public class DocumentDAOImpl implements DocumentDAO {
         //todo: fix this stuff :( not taking the batchID into consideration?
         query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
         return query.list();
+    }
+
+    // a few helper functions
+    public void insertUserPolicyCode(String email, String tableName, int docid, int batchid, int codeid) {
+        Session sess = sessionFactory.getCurrentSession();
+        Integer tableID = tablesIDByName(tableName);
+        String codeName = tableCodeByID(tableID);
+        SQLQuery query = sess.createSQLQuery("INSERT INTO UserPolicyCode (Email, DocumentID ,TablesID, BatchID, " + codeName  +
+                ") VALUES ('" + email + "'," + docid + "," + tableID + "," + batchid + "," + codeid+ ");");
+        try {query.executeUpdate(); }
+        catch (Exception e){
+            query = sess.createSQLQuery("UPDATE UserPolicyCode SET Code = " + codeid +
+                    " WHERE (Email = '" + email + "' and DocumentID = " + docid + " and TablesID = " + tableID + " AND BatchID = " + batchid + ");");
+            query.executeUpdate();
+        }
+    }
+    public void updateDocumentFinalCode(String tableName, int docid, int batchid, int codeid){
+        Session sess = sessionFactory.getCurrentSession();
+        Integer tableID = tablesIDByName(tableName);
+        SQLQuery query = sess.createSQLQuery("UPDATE " + tableName + " SET Code = " + codeid +
+                " WHERE ID = " + docid);
+        query.executeUpdate();
+        //todo: set BatchDocument as complete
+        String dateString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        query = sess.createSQLQuery("UPDATE BatchDocument SET DateCompleted = '" + dateString.toString() + "' WHERE DocumentID = " + docid + " AND TablesID = " + tableID + " AND BatchID = " + batchid);
+        query.executeUpdate();
+    }
+    public int tablesIDByName(String tableName){
+        Session sess = sessionFactory.getCurrentSession();
+        SQLQuery query = sess.createSQLQuery("SELECT ID FROM Tables WHERE TableName = '" + tableName + "'");
+        return (Integer) query.uniqueResult();
+    }
+    public String tableCodeByID(int tablesID){
+        Session sess = sessionFactory.getCurrentSession();
+        SQLQuery query = sess.createSQLQuery("SELECT CodeColumn FROM Tables WHERE ID = " + tablesID);
+        return (String) query.uniqueResult();
     }
 }
