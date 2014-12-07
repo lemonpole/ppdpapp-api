@@ -90,13 +90,17 @@ public class DocumentDAOImpl implements DocumentDAO {
             //insert into UserPolicyCode
             //set the final code
         }
-        else if (userPolicyCodes.size() != maxNumOfCodes -1){
-            for (int i = 0; i == userPolicyCodes.size() -1; i++){
-                if (userPolicyCodes.get(i) == userPolicyCodes.get(i+1)){
+        else if (userPolicyCodes.size() < maxNumOfCodes){ // enter this logic-block if the size of less than our maxNumOfCodes
+            for (int i = 0; i <= userPolicyCodes.size() -1; i++){ // keep looping while i is less than the size minus 1 (to avoid nullpointer error)
+                if (userPolicyCodes.get(i) == codeid){ // we are comparing to the codeid submitted by the user
                     matches++;
+                    // if we have reached the number of matches needed, exit the loop.
+                    if(matches == maxNumOfCodes) break;
                 }
             }
-            if (userPolicyCodes.size() == matches){
+
+            // check again and do what needs to be done.
+            if (matches == maxNumOfCodes){
                 //insert into UserPolicyCode
                 //set final code
             }
