@@ -62,27 +62,26 @@ public class DocumentDAOImpl implements DocumentDAO {
     }
     @Override
     @Transactional
-    public void addDocumentCode(User user, String tableName, int docid, int codeid) {
+    public void addDocumentCode(String email, String tableName, int docid, int codeid) {
         Session sess = sessionFactory.getCurrentSession();
         SQLQuery query = sess.createSQLQuery("INSERT INTO UserPolicyCode (Email, DocumentID ,TablesID, BatchID, Code)" +
-                "VALUES ('admin@temple.edu'," + docid + ", (SELECT ID FROM Tables WHERE TableName = '" + tableName + "'), 1," + codeid+ ");");
+                "VALUES ('" + email + "'," + docid + ", (SELECT ID FROM Tables WHERE TableName = '" + tableName + "'), 1," + codeid+ ");");
                 //"VALUES ('"+user.getEmail() + "'," + docid + ", (SELECT ID FROM Tables WHERE TableName = '" + tableName + "')," + codeid+ ");");
-        query.executeUpdate();
-        //try {query.executeUpdate(); }
-        //catch (Exception e){
-        //    query = sess.createSQLQuery("UPDATE UserPolicyCode SET Code = " + codeid +
-        //            " WHERE (Email = '" + user.getEmail() + "' and DocumentID = " + docid + " and TablesID = (SELECT ID FROM Tables WHERE TableName = '" + tableName + "'));");
-        //    query.executeUpdate();
-        //}
+
+        try {query.executeUpdate(); }
+        catch (Exception e){
+            query = sess.createSQLQuery("UPDATE UserPolicyCode SET Code = " + codeid +
+                    " WHERE (Email = '" + email + "' and DocumentID = " + docid + " and TablesID = (SELECT ID FROM Tables WHERE TableName = '" + tableName + "'));");
+            query.executeUpdate();
+        }
     }
 
     @Override
     @Transactional
     public List<Object> findDocumentsNoCodes(String tableName, int batchid, String email) {
         Session sess = sessionFactory.getCurrentSession();
-        SQLQuery query = sess.createSQLQuery("SELECT * FROM + " + tableName + " WHERE ID IN( " +
-                        "SELECT DocumentID FROM BatchDocument " +
-                        "WHERE DocumentID NOT IN( " +
+        SQLQuery query = sess.createSQLQuery("SELECT * FROM " + tableName + " WHERE ID IN( " +
+                        "SELECT DocumentID FROM BatchDocument WHERE DocumentID NOT IN(" +
                         "SELECT DocumentID FROM UserPolicyCode " +
                         "WHERE Email = '" + email + "' AND BatchID = " + batchid + "));");
         query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
