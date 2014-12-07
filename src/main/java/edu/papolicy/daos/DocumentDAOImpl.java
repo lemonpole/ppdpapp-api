@@ -80,9 +80,12 @@ public class DocumentDAOImpl implements DocumentDAO {
     @Transactional
     public List<Object> findDocumentsNoCodes(String tableName, int batchid, String email) {
         Session sess = sessionFactory.getCurrentSession();
-        SQLQuery query = sess.createSQLQuery("SELECT * FROM " + tableName +
-                " WHERE ID NOT IN(SELECT DocumentID FROM UserPolicyCode" +
-                "    WHERE Email = '" + email + "' AND BatchID = " + batchid +");");
+        SQLQuery query = sess.createSQLQuery("SELECT * FROM + " + tableName + " WHERE ID IN( " +
+                        "SELECT DocumentID FROM BatchDocument " +
+                        "WHERE DocumentID NOT IN( " +
+                        "SELECT DocumentID FROM UserPolicyCode " +
+                        "WHERE Email = '" + email + "' AND BatchID = " + batchid + "));");
+
         query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
         return query.list();
     }
