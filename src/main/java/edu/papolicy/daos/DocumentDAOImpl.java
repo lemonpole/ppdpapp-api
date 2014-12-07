@@ -111,43 +111,6 @@ public class DocumentDAOImpl implements DocumentDAO {
             }
         }
     }
-
-    //ignore the shit below
-
-
-/*
-
-        query = sess.createSQLQuery("INSERT INTO UserPolicyCode (Email, DocumentID ,TablesID, BatchID, Code)" +
-                "VALUES ('" + email + "'," + docid + "," + tableID + "," + batchid + "," + codeid+ ");");
-        try {query.executeUpdate(); }
-        catch (Exception e){
-            query = sess.createSQLQuery("UPDATE UserPolicyCode SET Code = " + codeid +
-                    " WHERE (Email = '" + email + "' and DocumentID = " + docid + " and TablesID = " + tableID + " AND BatchID = " + batchid + ");");
-            query.executeUpdate();
-        }
-        //check how many codes we need and how many there are.
-        //if we're at the max, check to see if the codes are the same
-
-        query = sess.createSQLQuery("SELECT COUNT Code FROM UserPolicyCode WHERE TableID = " + tableID +
-                " AND DocumentID = " + docid);
-        Integer numOfCodes = (Integer) query.uniqueResult();
-        if (numOfCodes == maxNumOfCodes){
-            //if they're all the same, update the code
-            query = sess.createSQLQuery("UPDATE " + tableName + " SET Code = " + codeid +
-            " WHERE ID = " + docid);
-            query.executeUpdate();
-
-            //if not, somehow enable tie breaking?
-
-        } else if (numOfCodes < maxNumOfCodes){
-            //doNothing
-        } else if (numOfCodes > maxNumOfCodes){
-            throw new IllegalStateException();
-        }
-
-
- */
-
     public void insertUserPolicyCode(String email, String tableName, int docid, int batchid, int codeid) {
         Session sess = sessionFactory.getCurrentSession();
         SQLQuery query = sess.createSQLQuery("SELECT ID FROM Tables WHERE TableName = '" + tableName + "'");
