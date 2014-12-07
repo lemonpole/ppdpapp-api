@@ -87,7 +87,7 @@ public class DocumentDAOImpl implements DocumentDAO {
             //insert into UserPolicyCode
             insertUserPolicyCode(email, tableName, docid, batchid, codeid);
             //set the final code
-            updateDocumentFinalCode(tableName, docid, codeid);
+            updateDocumentFinalCode(tableName, docid, codeid, batchid);
         } else if (userPolicyCodes.size() < maxNumOfCodes) { // enter this logic-block if the size of less than our maxNumOfCodes
             for (int i = 0; i <= userPolicyCodes.size() - 1; i++) { // keep looping while i is less than the size minus 1 (to avoid nullpointer error)
                 if (userPolicyCodes.get(i) == codeid) { // we are comparing to the codeid submitted by the user
@@ -101,7 +101,7 @@ public class DocumentDAOImpl implements DocumentDAO {
                 //insert into UserPolicyCode
                 insertUserPolicyCode(email, tableName, docid, batchid, codeid);
                 //set final code
-                updateDocumentFinalCode(tableName, docid, codeid);
+                updateDocumentFinalCode(tableName, docid, batchid, codeid);
             } else {
                 //insert into UserPolicyCode
                 insertUserPolicyCode(email, tableName, docid, batchid, codeid);
@@ -122,7 +122,7 @@ public class DocumentDAOImpl implements DocumentDAO {
         }
     }
 
-    public void updateDocumentFinalCode(String tableName, int docid, int codeid){
+    public void updateDocumentFinalCode(String tableName, int docid, int batchid, int codeid){
         Session sess = sessionFactory.getCurrentSession();
         SQLQuery query = sess.createSQLQuery("SELECT ID FROM Tables WHERE TableName = '" + tableName + "'");
         Integer tableID = (Integer) query.uniqueResult();
@@ -130,6 +130,9 @@ public class DocumentDAOImpl implements DocumentDAO {
                 " WHERE ID = " + docid);
         query.executeUpdate();
         //todo: set BatchDocument as complete
+        //query = sess.createSQLQuery("UPDATE BatchDocument SET DateCompleted = " + "" +
+        //        " WHERE DocumentID = " + docid + " AND TablesID = " + tableID + " AND BatchID = " + batchid);
+        //query.executeUpdate();
     }
 
     @Override
