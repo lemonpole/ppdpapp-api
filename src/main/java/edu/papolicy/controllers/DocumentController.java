@@ -53,6 +53,6 @@ public class DocumentController {
         User user = null;
         try { user = accountSvc.doAuthentication(token); }
         catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
-        return new ResponseEntity<List<Object>>(documentDAO.findDocumentsNoCodes(tableName, id, user.getEmail()), HttpStatus.OK);
+        return new ResponseEntity<List<Object>>(documentDAO.findDocumentsNoCodes(tableName, batchid, user.getEmail()), HttpStatus.OK);
     }
 }
