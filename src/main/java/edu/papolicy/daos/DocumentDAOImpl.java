@@ -62,20 +62,17 @@ public class DocumentDAOImpl implements DocumentDAO {
     }
     @Override
     @Transactional
-    public void addDocumentCode(String email, String tableName, int docid, int codeid) {
+    public void addDocumentCode(String email, String tableName, int docid, int batchid, int codeid) {
         Session sess = sessionFactory.getCurrentSession();
         SQLQuery query = sess.createSQLQuery("INSERT INTO UserPolicyCode (Email, DocumentID ,TablesID, BatchID, Code)" +
-                "VALUES ('" + email + "'," + docid + ", (SELECT ID FROM Tables WHERE TableName = '" + tableName + "'), 1," + codeid+ ");");
-                //"VALUES ('"+user.getEmail() + "'," + docid + ", (SELECT ID FROM Tables WHERE TableName = '" + tableName + "')," + codeid+ ");");
-
+                "VALUES ('" + email + "'," + docid + ", (SELECT ID FROM Tables WHERE TableName = '" + tableName + "')," + batchid + "," + codeid+ ");");
         try {query.executeUpdate(); }
         catch (Exception e){
             query = sess.createSQLQuery("UPDATE UserPolicyCode SET Code = " + codeid +
-                    " WHERE (Email = '" + email + "' and DocumentID = " + docid + " and TablesID = (SELECT ID FROM Tables WHERE TableName = '" + tableName + "'));");
+                    " WHERE (Email = '" + email + "' and DocumentID = " + docid + " and TablesID = (SELECT ID FROM Tables WHERE TableName = '" + tableName + "') AND BatchID = " + batchid + ");");
             query.executeUpdate();
         }
     }
-
     @Override
     @Transactional
     public List<Object> findDocumentsNoCodes(String tableName, int batchid, String email) {
