@@ -117,7 +117,7 @@ public class DocumentDAOImpl implements DocumentDAO {
         SQLQuery query = sess.createSQLQuery("SELECT * FROM " + tableName + " WHERE ID IN( " +
                         "SELECT DocumentID FROM BatchDocument WHERE DocumentID NOT IN(" +
                         "SELECT DocumentID FROM UserPolicyCode " +
-                        "WHERE Email = '" + email + "' AND BatchID = " + batchid + "));");
+                        "WHERE Email = '" + email + "' AND BatchID = " + batchid + ") AND BatchID = " + batchid + ");");
         //todo: fix this stuff :( not taking the batchID into consideration?
         query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
         return query.list();
