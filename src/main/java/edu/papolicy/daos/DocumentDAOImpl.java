@@ -72,6 +72,12 @@ public class DocumentDAOImpl implements DocumentDAO {
                     " WHERE (Email = '" + email + "' and DocumentID = " + docid + " and TablesID = (SELECT ID FROM Tables WHERE TableName = '" + tableName + "') AND BatchID = " + batchid + ");");
             query.executeUpdate();
         }
+        //check how many codes we need and how many there are.
+        //if we're at the max, check to see if the codes are the same
+        query = sess.createSQLQuery("SELECT Num FROM TablesMatchingCodesNum WHERE ID " + "(SELECT ID FROM Tables WHERE TableName = '" + tableName + "')");
+        String num = query.uniqueResult().toString();
+
+
     }
     @Override
     @Transactional
