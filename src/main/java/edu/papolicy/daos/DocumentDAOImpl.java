@@ -1,5 +1,7 @@
 package edu.papolicy.daos;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -130,9 +132,9 @@ public class DocumentDAOImpl implements DocumentDAO {
                 " WHERE ID = " + docid);
         query.executeUpdate();
         //todo: set BatchDocument as complete
-        //query = sess.createSQLQuery("UPDATE BatchDocument SET DateCompleted = " + "" +
-        //        " WHERE DocumentID = " + docid + " AND TablesID = " + tableID + " AND BatchID = " + batchid);
-        //query.executeUpdate();
+        String dateString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        query = sess.createSQLQuery("UPDATE BatchDocument SET DateCompleted = '" + dateString.toString() + "' WHERE DocumentID = " + docid + " AND TablesID = " + tableID + " AND BatchID = " + batchid);
+        query.executeUpdate();
     }
 
     @Override
@@ -143,7 +145,7 @@ public class DocumentDAOImpl implements DocumentDAO {
                         "SELECT DocumentID FROM BatchDocument WHERE DocumentID NOT IN(" +
                         "SELECT DocumentID FROM UserPolicyCode " +
                         "WHERE Email = '" + email + "' AND BatchID = " + batchid + "));");
-        //todo: fix this shit :( not taking the batchID into consideration?
+        //todo: fix this stuff :( not taking the batchID into consideration?
         query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
         return query.list();
     }
