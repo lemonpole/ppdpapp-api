@@ -26,6 +26,6 @@ public class CodeController {
         return new ResponseEntity<Object>(codeDAO.find(tableName,id), HttpStatus.OK);}
 
     @RequestMapping(method=RequestMethod.GET, value="/{tableName}/search/")
-    public ResponseEntity<List<Object>> getCodeSearch(@PathVariable String tableName, @RequestParam(value="query") String search){
-        return new ResponseEntity<List<Object>>(codeDAO.findSearch(tableName,search), HttpStatus.OK); }
+    public ResponseEntity<List<Object>> getCodeSearch(@PathVariable String tableName, @RequestParam(value="query") String query){
+        return new ResponseEntity<List<Object>>(codeDAO.findSearch(tableName,query), HttpStatus.OK); }
 }
