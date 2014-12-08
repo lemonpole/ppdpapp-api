@@ -24,19 +24,20 @@ public class CodeController {
         User user = null;
         try { user = accountSvc.doAuthentication(token); }
         catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
-        return new ResponseEntity<List<Object>>(codeDAO.list(tableName), HttpStatus.OK);}
-
+        return new ResponseEntity<List<Object>>(codeDAO.list(tableName), HttpStatus.OK);
+    }
 	@RequestMapping(method=RequestMethod.GET, value="/{tableName}/{id}")
 	public ResponseEntity getCode(@PathVariable String tableName, @PathVariable int id, @RequestParam(value="token") String token){
         User user = null;
         try { user = accountSvc.doAuthentication(token); }
         catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
-        return new ResponseEntity<Object>(codeDAO.find(tableName,id), HttpStatus.OK);}
-
+        return new ResponseEntity<Object>(codeDAO.find(tableName,id), HttpStatus.OK);
+    }
     @RequestMapping(method=RequestMethod.GET, value="/{tableName}/search/")
     public ResponseEntity getCodeSearch(@PathVariable String tableName, @RequestParam(value="query") String query, @RequestParam(value="token") String token){
         User user = null;
         try { user = accountSvc.doAuthentication(token); }
         catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
-        return new ResponseEntity<List<Object>>(codeDAO.findSearch(tableName,query), HttpStatus.OK); }
+        return new ResponseEntity<List<Object>>(codeDAO.findSearch(tableName,query), HttpStatus.OK);
+    }
 }

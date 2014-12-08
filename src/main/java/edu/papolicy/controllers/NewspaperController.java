@@ -28,7 +28,6 @@ public class NewspaperController {
         catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
         return new ResponseEntity<List<Newspaper>>(NewspaperDAO.list(), HttpStatus.OK);
     }
-
     @RequestMapping(method=RequestMethod.POST)
     public ResponseEntity postNewspapers(@RequestParam(value="token") String token) {
         User user = null;
@@ -36,5 +35,4 @@ public class NewspaperController {
         } catch (Exception e) { return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
         return null;
     }
-
 }

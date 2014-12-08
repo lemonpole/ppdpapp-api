@@ -26,7 +26,6 @@ public class FileController {
     public ResponseEntity getFiles(){
         return new ResponseEntity<List<File>>(fileDAO.list(), HttpStatus.OK);
     }
-
 	@RequestMapping(method=RequestMethod.GET, value="/{id}")
 	public ResponseEntity getFile(@PathVariable int id, @RequestParam(value="token") String token){
         User user = null;
@@ -34,7 +33,6 @@ public class FileController {
         catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);}
 		return new ResponseEntity<File>(fileDAO.find(id), HttpStatus.OK);
 	}
-
     @RequestMapping(method=RequestMethod.POST)
     public ResponseEntity postFile(@RequestParam("name") String name,
                                    @RequestParam("file") MultipartFile file,

@@ -25,7 +25,6 @@ public class RoleController {
 		catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
 		return new ResponseEntity<List<Role>>(roleDAO.list(), HttpStatus.OK);
 	}
-
 	@RequestMapping(method=RequestMethod.GET, value="/{id}")
 	public ResponseEntity getRole(@PathVariable int id,@RequestParam(value="token") String token){
 		User user = null;

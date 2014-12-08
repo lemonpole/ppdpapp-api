@@ -25,7 +25,6 @@ public class UserController {
         catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
         return new ResponseEntity<List<User>>(userDAO.list(), HttpStatus.OK);
     }
-
 	@RequestMapping(method=RequestMethod.GET, value="/{email:.+}")
 	public ResponseEntity getUser(@PathVariable String email, @RequestParam(value="token") String token){
         User user = null;
@@ -33,7 +32,6 @@ public class UserController {
         catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
         return new ResponseEntity<User>(userDAO.find(email), HttpStatus.OK);
 	}
-
     @RequestMapping(method=RequestMethod.POST)
     public ResponseEntity postUser(@RequestBody User userObj, @RequestParam(value="token") String token){
         User user = null;
@@ -41,7 +39,6 @@ public class UserController {
         catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
         return new ResponseEntity<User>(userDAO.save(userObj), HttpStatus.OK);
     }
-
     @RequestMapping(method = RequestMethod.GET, value = "/{email:.+}/batches")
     public ResponseEntity getUserBatches(@PathVariable String email, @RequestParam(value="token") String token){
         User user = null;
