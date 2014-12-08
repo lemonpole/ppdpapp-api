@@ -83,12 +83,16 @@ public class DocumentDAOImpl implements DocumentDAO {
 
         query = sess.createSQLQuery("SELECT Code FROM UserPolicyCode WHERE DocumentID = " + docid + " AND TablesID = " + tableID);
         List<Integer> userPolicyCodes = query.list();
+        System.out.println("userPolicyCode.Size = " + userPolicyCodes.size());
+        System.out.println("maxNumOfCodes = " + maxNumOfCodes);
+
         Integer matches = 1; //because the codeid always matches itsself
         if (userPolicyCodes.size() == maxNumOfCodes) { //if there is already the max value of userPolicyCodes in the database, this must be a tiebreak.
+            System.out.println("they're equal");
             //insert into UserPolicyCode
             insertUserPolicyCode(email, tableName, docid, batchid, codeid);
             //set the final code
-            updateDocumentFinalCode(tableName, docid, codeid, batchid);
+            updateDocumentFinalCode(tableName, docid, batchid, codeid);
         } else if (userPolicyCodes.size() < maxNumOfCodes) { // enter this logic-block if the size of less than our maxNumOfCodes
             for (int i = 0; i <= userPolicyCodes.size() - 1; i++) { // keep looping while i is less than the size minus 1 (to avoid nullpointer error)
                 if (userPolicyCodes.get(i) == codeid) { // we are comparing to the codeid submitted by the user
@@ -137,16 +141,26 @@ public class DocumentDAOImpl implements DocumentDAO {
             query.executeUpdate();
         }
     }
+
     public void updateDocumentFinalCode(String tableName, int docid, int batchid, int codeid){
         Session sess = sessionFactory.getCurrentSession();
         Integer tableID = tablesIDByName(tableName);
-        SQLQuery query = sess.createSQLQuery("UPDATE " + tableName + " SET Code = " + codeid +
-                " WHERE ID = " + docid);
-        query.executeUpdate();
+        System.out.println(tableID);
+        String codeName = tableCodeByID(tableID);
+        System.out.println(codeName);
         //todo: set BatchDocument as complete
         String dateString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        query = sess.createSQLQuery("UPDATE BatchDocument SET DateCompleted = '" + dateString.toString() + "' WHERE DocumentID = " + docid + " AND TablesID = " + tableID + " AND BatchID = " + batchid);
+        SQLQuery query = sess.createSQLQuery("UPDATE BatchDocument SET DateCompleted = '" + dateString.toString() + "' WHERE DocumentID = " + docid + " AND TablesID = " + tableID + " AND BatchID = " + batchid);
         query.executeUpdate();
+        System.out.println("First Statement Executed");
+        System.out.println("UPDATE BatchDocument SET DateCompleted = '" + dateString.toString() + "' WHERE DocumentID = " + docid + " AND TablesID = " + tableID + " AND BatchID = " + batchid);
+        query = sess.createSQLQuery("UPDATE " + tableName + " SET " + codeName + " = " + codeid +
+                " WHERE ID = " + docid);
+        query.executeUpdate();
+        System.out.println("Second statement Executed");
+        System.out.println("UPDATE " + tableName + " SET " + codeName + " = " + codeid +
+                " WHERE ID = " + docid);
+
     }
     public int tablesIDByName(String tableName){
         Session sess = sessionFactory.getCurrentSession();
