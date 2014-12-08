@@ -5,4 +5,5 @@ import java.util.List;
 
 public interface NewspaperDAO {
     public List<Newspaper> list();
+    public void add(String name);
 }
