@@ -23,14 +23,16 @@ public class FileController {
     @Autowired private Account accountSvc;
 
     @RequestMapping(method=RequestMethod.GET)
-    public List<File> getFiles(){
-        List<File> files = fileDAO.list();
-        return files;
+    public ResponseEntity getFiles(){
+        return new ResponseEntity<List<File>>(fileDAO.list(), HttpStatus.OK);
     }
 
 	@RequestMapping(method=RequestMethod.GET, value="/{id}")
-	public File getFile(@PathVariable int id){
-		return fileDAO.find(id);
+	public ResponseEntity getFile(@PathVariable int id, @RequestParam(value="token") String token){
+        User user = null;
+        try { user = accountSvc.doAuthentication(token); }
+        catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);}
+		return new ResponseEntity<File>(fileDAO.find(id), HttpStatus.OK);
 	}
 
     @RequestMapping(method=RequestMethod.POST)
