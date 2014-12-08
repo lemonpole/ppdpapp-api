@@ -17,9 +17,9 @@ public class CodeController {
     @Autowired
     private CodeDAO codeDAO;
 
-    @RequestMapping(method=RequestMethod.GET)
-    public List<Code> getCodes(){ return codeDAO.list(); }
+    @RequestMapping(method=RequestMethod.GET, value="/{tableName}")
+    public List<Code> getCodes(@PathVariable String tableName){ return codeDAO.list(tableName); }
 
-	@RequestMapping(method = RequestMethod.GET, value="/{id}")
-	public Code getCode(@PathVariable int id){ return codeDAO.find(id); }
+	@RequestMapping(method=RequestMethod.GET, value="/{tableName}/{id}")
+	public Code getCode(@PathVariable String tableName, @PathVariable int id){ return codeDAO.find(tableName,id); }
 }

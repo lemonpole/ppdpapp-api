@@ -3,6 +3,8 @@ package edu.papolicy.daos;
 import edu.papolicy.models.Code;
 
 import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,13 +20,22 @@ public class CodeDAOImpl implements CodeDAO {
 
     @Override
     @Transactional
-    public List<Code> list(){
-        return (List<Code>) sessionFactory.getCurrentSession().createCriteria(Code.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+    public List<Code> list(String tableName){
+        Session sess = sessionFactory.getCurrentSession();
+        SQLQuery query = sess.createSQLQuery("SELECT MajorOnly FROM Tables WHERE TableName= " + tableName);
+        int majorOnly = (Integer) query.uniqueResult();
+        if(majorOnly==1){
+            query = sess.createSQLQuery("SELECT * FROM MajorCode");
+            return query.list();
+        }
+        else{
+            return (List<Code>) sess.createCriteria(Code.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+        }
     }
 
 	@Override
 	@Transactional
-	public Code find(int id){
+	public Code find(String tableName, int id){
         return (Code) sessionFactory.getCurrentSession().get(Code.class, id);
     }
 }
