@@ -21,25 +21,35 @@ public class DocumentController {
     @Autowired private Account accountSvc;
 
     @RequestMapping(method = RequestMethod.GET, value = "/{tableName}")
-    public ResponseEntity getDocuments(@PathVariable String tableName) {
+    public ResponseEntity getDocuments(@PathVariable String tableName, @RequestParam(value="token") String token){
+        User user = null;
+        try { user = accountSvc.doAuthentication(token); }
+        catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
         return new ResponseEntity<List<Object>>(documentDAO.findDocuments(tableName), HttpStatus.OK);
     }
     @RequestMapping(method = RequestMethod.GET, value = "/{tableName}/nobatch")
-    public ResponseEntity getDocumentsNoBatch(@PathVariable String tableName) {
+    public ResponseEntity getDocumentsNoBatch(@PathVariable String tableName, @RequestParam(value="token") String token){
+        User user = null;
+        try { user = accountSvc.doAuthentication(token); }
+        catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
         return new ResponseEntity<List<Object>>(documentDAO.findDocumentsNoBatch(tableName), HttpStatus.OK);
     }
     @RequestMapping(method = RequestMethod.GET, value = "/{tableName}/{id}")
-    public ResponseEntity getDocument(@PathVariable String tableName, @PathVariable int id){
+    public ResponseEntity getDocument(@PathVariable String tableName, @PathVariable int id, @RequestParam(value="token") String token){
+        User user = null;
+        try { user = accountSvc.doAuthentication(token); }
+        catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
         return new ResponseEntity<Object>(documentDAO.findDocument(tableName, id), HttpStatus.OK);
     }
     @RequestMapping(method = RequestMethod.GET, value = "/{tableName}/{id}/codes")
-    public ResponseEntity getDocumentCodes(@PathVariable String tableName, @PathVariable int id){
+    public ResponseEntity getDocumentCodes(@PathVariable String tableName, @PathVariable int id, @RequestParam(value="token") String token){
+        User user = null;
+        try { user = accountSvc.doAuthentication(token); }
+        catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
         return new ResponseEntity<Object>(documentDAO.findDocumentCodes(tableName, id), HttpStatus.OK);
     }
     @RequestMapping(method = RequestMethod.POST, value = "/{tableName}/{docid}/batch/{batchid}/add/code/{codeid}")
     public ResponseEntity addDocumentCodes(@PathVariable String tableName, @PathVariable int docid, @PathVariable int batchid, @PathVariable int codeid, @RequestParam(value="token") String token){
-        //testing
-        token = "k0nXf9nsC8ndoMrjgNZwDb8Lq42rHfET:1417047552017";
         User user = null;
         try { user = accountSvc.doAuthentication(token); }
         catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
@@ -48,8 +58,6 @@ public class DocumentController {
     }
     @RequestMapping(method = RequestMethod.GET, value = "/{tableName}/batch/{batchid}/nocodes")
     public ResponseEntity getDocumentNoCodes(@PathVariable String tableName, @PathVariable int batchid, @RequestParam(value="token") String token){
-        //testing
-        token = "k0nXf9nsC8ndoMrjgNZwDb8Lq42rHfET:1417047552017";
         User user = null;
         try { user = accountSvc.doAuthentication(token); }
         catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
