@@ -11,7 +11,7 @@ import javax.persistence.Column;
 * See: http://docs.jboss.org/hibernate/annotations/3.5/reference/en/html/entity.html
 */
 @Entity
-@Table(name="Codes")
+@Table(name="Code")
 public class Code {
     /**
     * Annotated properties/fields.
