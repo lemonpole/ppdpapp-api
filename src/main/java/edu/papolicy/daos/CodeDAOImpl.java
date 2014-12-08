@@ -21,7 +21,7 @@ public class CodeDAOImpl implements CodeDAO {
 
     @Override
     @Transactional
-    public List<Code> list(String tableName){
+    public List<Object> list(String tableName){
         Session sess = sessionFactory.getCurrentSession();
         SQLQuery query = sess.createSQLQuery("SELECT MajorOnly FROM Tables WHERE TableName= '" + tableName + "'");
         int majorOnly = (Integer) query.uniqueResult();
@@ -31,13 +31,23 @@ public class CodeDAOImpl implements CodeDAO {
             return query.list();
         }
         else{
-            return (List<Code>) sess.createCriteria(Code.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+            return (List<Object>) sess.createCriteria(Code.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
         }
     }
 
 	@Override
 	@Transactional
-	public Code find(String tableName, int id){
-        return (Code) sessionFactory.getCurrentSession().get(Code.class, id);
+	public Object find(String tableName, int id){
+        Session sess = sessionFactory.getCurrentSession();
+        SQLQuery query = sess.createSQLQuery("SELECT MajorOnly FROM Tables WHERE TableName= '" + tableName + "'");
+        int majorOnly = (Integer) query.uniqueResult();
+        if(majorOnly==1){
+            query = sess.createSQLQuery("SELECT * FROM MajorCode WHERE Code = " + id);
+            query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+            return query.uniqueResult();
+        }
+        else {
+            return sess.get(Code.class, id);
+        }
     }
 }

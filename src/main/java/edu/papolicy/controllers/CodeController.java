@@ -18,8 +18,8 @@ public class CodeController {
     private CodeDAO codeDAO;
 
     @RequestMapping(method=RequestMethod.GET, value="/{tableName}")
-    public List<Code> getCodes(@PathVariable String tableName){ return codeDAO.list(tableName); }
+    public List<Object> getCodes(@PathVariable String tableName){ return codeDAO.list(tableName); }
 
 	@RequestMapping(method=RequestMethod.GET, value="/{tableName}/{id}")
-	public Code getCode(@PathVariable String tableName, @PathVariable int id){ return codeDAO.find(tableName,id); }
+	public Object getCode(@PathVariable String tableName, @PathVariable int id){ return codeDAO.find(tableName,id); }
 }
