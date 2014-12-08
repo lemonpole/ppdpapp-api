@@ -23,7 +23,7 @@ public class CodeDAOImpl implements CodeDAO {
     @Transactional
     public List<Code> list(String tableName){
         Session sess = sessionFactory.getCurrentSession();
-        SQLQuery query = sess.createSQLQuery("SELECT MajorOnly FROM Tables WHERE TableName= " + tableName);
+        SQLQuery query = sess.createSQLQuery("SELECT MajorOnly FROM Tables WHERE TableName= '" + tableName + "'");
         int majorOnly = (Integer) query.uniqueResult();
         if(majorOnly==1){
             query = sess.createSQLQuery("SELECT * FROM MajorCode");
