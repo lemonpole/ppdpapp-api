@@ -50,4 +50,22 @@ public class CodeDAOImpl implements CodeDAO {
             return sess.get(Code.class, id);
         }
     }
+
+    @Override
+    @Transactional
+    public List<Object> findSearch(String tableName, String search) {
+        Session sess = sessionFactory.getCurrentSession();
+        SQLQuery query = sess.createSQLQuery("SELECT MajorOnly FROM Tables WHERE TableName= '" + tableName + "'");
+        Integer majorOnly = (Integer) query.uniqueResult();
+        String codeTable = null;
+        if(majorOnly==1){
+            codeTable="MajorCode";
+        }
+        else{
+            codeTable="Code";
+        }
+        query = sess.createSQLQuery("SELECT * FROM " + codeTable + " WHERE Code LIKE '%" + search + "%' OR Description LIKE '%" + search + "%'");
+        query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+        return query.list();
+    }
 }

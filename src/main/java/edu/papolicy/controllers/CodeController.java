@@ -6,10 +6,7 @@ import edu.papolicy.models.Code;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/codes")
@@ -22,4 +19,7 @@ public class CodeController {
 
 	@RequestMapping(method=RequestMethod.GET, value="/{tableName}/{id}")
 	public Object getCode(@PathVariable String tableName, @PathVariable int id){ return codeDAO.find(tableName,id); }
+
+    @RequestMapping(method=RequestMethod.GET, value="/{tableName}/search/")
+    public Object getCodeSearch(@PathVariable String tableName, @RequestParam(value="query") String search){ return codeDAO.findSearch(tableName,search); }
 }
