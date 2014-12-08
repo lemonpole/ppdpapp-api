@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class CodeDAOImpl implements CodeDAO {
         int majorOnly = (Integer) query.uniqueResult();
         if(majorOnly==1){
             query = sess.createSQLQuery("SELECT * FROM MajorCode");
+            query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
             return query.list();
         }
         else{
