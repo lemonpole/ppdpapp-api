@@ -9,6 +9,7 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import edu.papolicy.models.User;
 import edu.papolicy.services.Account;
@@ -44,13 +45,21 @@ public class FileController {
         return new ResponseEntity<Object>(fileDAO.findBatchByFileID(id), HttpStatus.OK);
     }
     @RequestMapping(method=RequestMethod.POST)
-    public ResponseEntity postFile(@RequestBody File fileObj,
-                                   @RequestBody MultipartFile data,
-                                   @RequestBody Batch batchObj,
-                                   @RequestParam(value="token") String token){
+    public ResponseEntity postFile(@RequestBody Object o, @RequestParam(value="token") String token){
+        // File fileObj
+        // MultipartFile data
+        // Batch batchObj
         User user = null;
         try { user = accountSvc.doAuthentication(token); }
         catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
+
+        Map<String, Object> map = (Map) o;
+        MultipartFile data = (MultipartFile) map.get("data");
+        File fileObj = (File) map.get("fileObj");
+        Batch batchObj = (Batch) map.get("batchObj");
+        System.out.println("YIS");
+        System.out.println(batchObj.getName());
+
         if (!data.isEmpty()) {
             try {
                 byte[] bytes = data.getBytes();
