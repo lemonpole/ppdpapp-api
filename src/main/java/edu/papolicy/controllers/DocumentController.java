@@ -63,7 +63,7 @@ public class DocumentController {
         catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
 
         documentDAO.updateDocument(tableName, docObj);
-        return new ResponseEntity<String>("document code added, bud", HttpStatus.OK);
+        return new ResponseEntity<String>("document code NOT ADDED BECAUSE THAT ISN'T THE POINT added, bud", HttpStatus.OK);
     }
     @RequestMapping(method = RequestMethod.GET, value = "/{tableName}/batch/{batchid}/nocodes")
     public ResponseEntity getDocumentNoCodes(@PathVariable String tableName, @PathVariable int batchid, @RequestParam(value="token") String token){

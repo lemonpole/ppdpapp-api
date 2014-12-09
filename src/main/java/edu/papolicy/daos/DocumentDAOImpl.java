@@ -128,9 +128,9 @@ public class DocumentDAOImpl implements DocumentDAO {
     public void updateDocument(String tableName, Object docObj){
         Session sess = sessionFactory.getCurrentSession();
         Integer tableID = tablesIDByName(tableName);
-
         BeanMap beanMap = new BeanMap(docObj);
-        
+
+
     }
 
     // a few helper functions
