@@ -1,8 +1,11 @@
 package edu.papolicy.daos;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.papolicy.models.Code;
 import edu.papolicy.models.User;
 
@@ -115,9 +118,9 @@ public class DocumentDAOImpl implements DocumentDAO {
     public List<Object> findDocumentsNoCodes(String tableName, int batchid, String email) {
         Session sess = sessionFactory.getCurrentSession();
         SQLQuery query = sess.createSQLQuery("SELECT * FROM " + tableName + " WHERE ID IN( " +
-                        "SELECT DocumentID FROM BatchDocument WHERE DocumentID NOT IN(" +
-                        "SELECT DocumentID FROM UserPolicyCode " +
-                        "WHERE Email = '" + email + "' AND BatchID = " + batchid + ") AND BatchID = " + batchid + ");");
+                "SELECT DocumentID FROM BatchDocument WHERE DocumentID NOT IN(" +
+                "SELECT DocumentID FROM UserPolicyCode " +
+                "WHERE Email = '" + email + "' AND BatchID = " + batchid + ") AND BatchID = " + batchid + ");");
         //todo: fix this stuff :( not taking the batchID into consideration?
         query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
         return query.list();
@@ -130,10 +133,35 @@ public class DocumentDAOImpl implements DocumentDAO {
         Integer tableID = tablesIDByName(tableName);
         BeanMap beanMap = new BeanMap(docObj);
 
+        List dataList = new ArrayList();
+        Map<String, String> map = (Map) docObj;
+        //System.out.println(map.keySet().toString());
+        //System.out.println(map.values().toString());
 
+        Object[] keyArray = map.keySet().toArray();
+        Object[] valueArray = map.values().toArray();
+
+
+        //System.out.println(keyArray[0]);
+        //System.out.println(valueArray[0]);
+
+        Object docID = "";
+        int mapSize = map.size();
+        String sql = "UPDATE " + tableName + " SET ";
+        for(int i=0;i<mapSize;i++){
+            String sqlAppend = keyArray[i] + " = '" + valueArray[i] + "', ";
+            if(keyArray[i]=="ID"){
+                docID = valueArray[i];
+            }
+            else{
+                sql = sql + sqlAppend;
+            }
+        }
+        sql = sql.substring(0,sql.length()-2) + " WHERE ID = " + docID;
+        //System.out.println(sql);
+        SQLQuery query = sess.createSQLQuery(sql);
+        query.executeUpdate();
     }
-
-    // a few helper functions
     public void insertUserPolicyCode(String email, String tableName, int docid, int batchid, int codeid) {
         Session sess = sessionFactory.getCurrentSession();
         Integer tableID = tablesIDByName(tableName);
