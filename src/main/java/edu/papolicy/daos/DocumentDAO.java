@@ -14,4 +14,5 @@ public interface DocumentDAO {
 	public void addDocumentCode(String email, String tableName, int docid, int batchid, int codeid);
 	public List<Object>  findDocumentsNoCodes(String tableName, int batchid, String email);
 	public void updateDocument(String tableName, Object docObj);
+	public void insertDocument(String tableName, Object docObj);
 }

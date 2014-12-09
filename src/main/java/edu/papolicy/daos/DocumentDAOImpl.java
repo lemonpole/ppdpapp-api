@@ -74,7 +74,6 @@ public class DocumentDAOImpl implements DocumentDAO {
         SQLQuery query = sess.createSQLQuery("SELECT Num FROM TablesMatchingCodesNum WHERE Tables_ID = " + tableID);
         Integer maxNumOfCodes = (Integer) query.uniqueResult();
 
-
         //take the batchID
         //count how many UserPolicyCodes there currently are for that document/table.
         //if the maxCodes = numberOfCodes
@@ -130,26 +129,15 @@ public class DocumentDAOImpl implements DocumentDAO {
     @Transactional
     public void updateDocument(String tableName, Object docObj){
         Session sess = sessionFactory.getCurrentSession();
-        Integer tableID = tablesIDByName(tableName);
-        BeanMap beanMap = new BeanMap(docObj);
-
-        List dataList = new ArrayList();
         Map<String, String> map = (Map) docObj;
-        //System.out.println(map.keySet().toString());
-        //System.out.println(map.values().toString());
-
         Object[] keyArray = map.keySet().toArray();
         Object[] valueArray = map.values().toArray();
-
-
-        //System.out.println(keyArray[0]);
-        //System.out.println(valueArray[0]);
 
         Object docID = "";
         int mapSize = map.size();
         String sql = "UPDATE " + tableName + " SET ";
         for(int i=0;i<mapSize;i++){
-            String sqlAppend = keyArray[i] + " = '" + valueArray[i] + "', ";
+            String sqlAppend = keyArray[i] + " = '" + valueArray[i].toString().replace("'", "\\'") + "', ";
             if(keyArray[i]=="ID"){
                 docID = valueArray[i];
             }
@@ -162,6 +150,34 @@ public class DocumentDAOImpl implements DocumentDAO {
         SQLQuery query = sess.createSQLQuery(sql);
         query.executeUpdate();
     }
+
+    @Override
+    @Transactional
+    public void insertDocument(String tableName, Object docObj) {
+        Session sess = sessionFactory.getCurrentSession();
+        Map<String, String> map = (Map) docObj;
+        Object[] keyArray = map.keySet().toArray();
+        Object[] valueArray = map.values().toArray();
+
+        Object docID = "";
+        int mapSize = map.size();
+        String sql = "INSERT INTO " + tableName + " (";
+        String sqlAppendKeys ="", sqlAppendValues ="";
+        for(int i=0;i<mapSize;i++){
+            if(keyArray[i]=="ID"){
+                docID = valueArray[i];
+            }
+            else{
+                sqlAppendKeys = sqlAppendKeys + keyArray[i] + ",";
+                sqlAppendValues = sqlAppendValues + "'" + valueArray[i].toString().replace("'","\\'") + "',";
+            }
+        }
+        sql = sql + sqlAppendKeys.substring(0,sqlAppendKeys.length()-1) + ") VALUES (" + sqlAppendValues.substring(0,sqlAppendValues.length()-1) + ")";
+        //System.out.println(sql);
+        SQLQuery query = sess.createSQLQuery(sql);
+        query.executeUpdate();
+    }
+
     public void insertUserPolicyCode(String email, String tableName, int docid, int batchid, int codeid) {
         Session sess = sessionFactory.getCurrentSession();
         Integer tableID = tablesIDByName(tableName);
@@ -189,6 +205,9 @@ public class DocumentDAOImpl implements DocumentDAO {
         query.executeUpdate();
 
     }
+
+
+    //helper functions
     public int tablesIDByName(String tableName){
         Session sess = sessionFactory.getCurrentSession();
         SQLQuery query = sess.createSQLQuery("SELECT ID FROM Tables WHERE TableName = '" + tableName + "'");
