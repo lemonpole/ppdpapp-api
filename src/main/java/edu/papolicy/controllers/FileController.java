@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import edu.papolicy.models.FileWrapper;
 import edu.papolicy.models.User;
 import edu.papolicy.services.Account;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,10 +54,10 @@ public class FileController {
         try { user = accountSvc.doAuthentication(token); }
         catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
 
-        Map<String, Object> map = (Map) o;
-        MultipartFile data = (MultipartFile) map.get("data");
-        File fileObj = (File) map.get("fileObj");
-        Batch batchObj = (Batch) map.get("batchObj");
+        FileWrapper fileWrapper = (FileWrapper) o;
+        MultipartFile data = ((FileWrapper) o).getData();
+        File fileObj = ((FileWrapper) o).getFileObj();
+        Batch batchObj = ((FileWrapper) o).getBatchObj();
         System.out.println("YIS");
         System.out.println(batchObj.getName());
 
