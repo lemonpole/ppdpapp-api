@@ -52,8 +52,6 @@ public class FileController {
         catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
         //Integer fileID = fileDAO.create(fileObj);
         fileObj.setCreator(user.getEmail());
-        System.out.println(user.getEmail());
-        System.out.println(user.getAccessToken());
         fileObj.setFileURL("lolURL");//todo:FIX ME PLEASE
         return new ResponseEntity<File>(fileDAO.save(fileObj), HttpStatus.OK);
 
