@@ -12,7 +12,7 @@ public interface BatchDAO {
 	public void delete(int id);
 	public List<User> findUsers(int id);
 	public List<Object> findDocuments(int id);
-	public void addDocument(int batchID, int docID);
-	public void deleteDocument(int batchID, int docID);
+	public void addDocument(int batchID, String docID);
+	public void deleteDocument(int batchID, String docID);
 	public void deleteUser(int batchID, String email);
 }

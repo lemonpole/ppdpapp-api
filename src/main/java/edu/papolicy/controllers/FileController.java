@@ -51,7 +51,7 @@ public class FileController {
         try { user = accountSvc.doAuthentication(token); }
         catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
         //Integer fileID = fileDAO.create(fileObj);
-        fileObj.setFileURL("lolURL");//todo:FIX ME PLEASE
+        fileObj.setFileURL("URL");//todo:FIX ME PLEASE
         return new ResponseEntity<File>(fileDAO.save(fileObj), HttpStatus.OK);
 
 
@@ -98,7 +98,7 @@ public class FileController {
     }
 
     @RequestMapping(method=RequestMethod.POST, value="/upload")
-    public ResponseEntity postFile(@RequestBody FileWrapper o, @RequestParam(value="token") String token){
+    public ResponseEntity postFile(@RequestBody MultipartFile file, @RequestParam(value="token") String token){
         // File fileObj
         // MultipartFile data
         // Batch batchObj

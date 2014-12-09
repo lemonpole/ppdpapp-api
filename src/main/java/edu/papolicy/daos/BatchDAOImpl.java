@@ -95,7 +95,7 @@ public class BatchDAOImpl implements BatchDAO {
 
 	@Override
 	@Transactional
-	public void addDocument(int batchID, int docID) {
+	public void addDocument(int batchID, String docID) {
 		Session sess = sessionFactory.getCurrentSession();
 		SQLQuery query = sess.createSQLQuery("SELECT ID FROM Tables WHERE ID = (SELECT TablesID FROM Batches WHERE BatchID = " + batchID + ")");
 		String tableID = query.uniqueResult().toString();
@@ -106,7 +106,7 @@ public class BatchDAOImpl implements BatchDAO {
 
 	@Override
 	@Transactional
-	public void deleteDocument(int batchID, int docID) {
+	public void deleteDocument(int batchID, String docID) {
 		Session sess = sessionFactory.getCurrentSession();
 
 

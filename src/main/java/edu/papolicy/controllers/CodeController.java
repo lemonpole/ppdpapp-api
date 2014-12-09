@@ -26,6 +26,13 @@ public class CodeController {
         catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
         return new ResponseEntity<List<Object>>(codeDAO.list(tableName), HttpStatus.OK);
     }
+    @RequestMapping(method=RequestMethod.GET, value="/{majorOrMinor}")
+    public ResponseEntity getCodesByMajorOrMinor(@PathVariable String tableName, @RequestParam(value="token") String token){
+        User user = null;
+        try { user = accountSvc.doAuthentication(token); }
+        catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
+        return new ResponseEntity<List<Object>>(codeDAO.listMajorMinor(tableName), HttpStatus.OK);
+    }
 	@RequestMapping(method=RequestMethod.GET, value="/{tableName}/{id}")
 	public ResponseEntity getCode(@PathVariable String tableName, @PathVariable int id, @RequestParam(value="token") String token){
         User user = null;

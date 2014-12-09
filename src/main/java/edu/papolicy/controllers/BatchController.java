@@ -88,7 +88,7 @@ public class BatchController {
 		return new ResponseEntity<String>("user deleted, comrade", HttpStatus.OK);
 	}
 	@RequestMapping(method = RequestMethod.POST, value = "/{batchid}/add/document/{docid}")
-	public ResponseEntity postAddDocument(@PathVariable int batchid, @PathVariable int docid, @RequestParam(value="token") String token){
+	public ResponseEntity postAddDocument(@PathVariable int batchid, @PathVariable String docid, @RequestParam(value="token") String token){
 		User user = null;
 		try { user = accountSvc.doAuthentication(token); }
 		catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
@@ -96,7 +96,7 @@ public class BatchController {
 		return new ResponseEntity<String>("document added, pal", HttpStatus.OK);
 	}
 	@RequestMapping(method = RequestMethod.DELETE, value = "/{batchid}/delete/document/{docid}")
-	public ResponseEntity deleteDocument(@PathVariable int batchid, @PathVariable int docid, @RequestParam(value="token") String token){
+	public ResponseEntity deleteDocument(@PathVariable int batchid, @PathVariable String docid, @RequestParam(value="token") String token){
 		User user = null;
 		try { user = accountSvc.doAuthentication(token); }
 		catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }

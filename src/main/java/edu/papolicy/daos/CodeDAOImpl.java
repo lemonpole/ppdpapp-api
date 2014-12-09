@@ -34,6 +34,14 @@ public class CodeDAOImpl implements CodeDAO {
             return (List<Object>) sess.createCriteria(Code.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
         }
     }
+    @Override
+    @Transactional
+    public List<Object> listMajorMinor(String majorOrMinor){
+        Session sess = sessionFactory.getCurrentSession();
+        SQLQuery query = sess.createSQLQuery("SELECT * FROM " + majorOrMinor);
+        query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+        return query.list();
+    }
 
 	@Override
 	@Transactional
