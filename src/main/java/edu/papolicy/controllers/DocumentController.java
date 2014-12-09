@@ -56,6 +56,15 @@ public class DocumentController {
         documentDAO.addDocumentCode(user.getEmail(), tableName, docid, batchid, codeid);
         return new ResponseEntity<String>("document code added, bud", HttpStatus.OK);
     }
+    @RequestMapping(method = RequestMethod.PUT, value = "/{tableName}")
+    public ResponseEntity updateDocument(@RequestBody Object docObj, @PathVariable String tableName, @RequestParam(value="token") String token){
+        User user = null;
+        try { user = accountSvc.doAuthentication(token); }
+        catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
+
+        documentDAO.updateDocument(tableName, docObj);
+        return new ResponseEntity<String>("document code added, bud", HttpStatus.OK);
+    }
     @RequestMapping(method = RequestMethod.GET, value = "/{tableName}/batch/{batchid}/nocodes")
     public ResponseEntity getDocumentNoCodes(@PathVariable String tableName, @PathVariable int batchid, @RequestParam(value="token") String token){
         User user = null;

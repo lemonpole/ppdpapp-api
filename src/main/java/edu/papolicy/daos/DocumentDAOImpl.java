@@ -1,12 +1,12 @@
 package edu.papolicy.daos;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import edu.papolicy.models.Code;
 import edu.papolicy.models.User;
+
+import org.apache.commons.beanutils.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.Session;
 import org.hibernate.SQLQuery;
@@ -121,6 +121,16 @@ public class DocumentDAOImpl implements DocumentDAO {
         //todo: fix this stuff :( not taking the batchID into consideration?
         query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
         return query.list();
+    }
+
+    @Override
+    @Transactional
+    public void updateDocument(String tableName, Object docObj){
+        Session sess = sessionFactory.getCurrentSession();
+        Integer tableID = tablesIDByName(tableName);
+
+        BeanMap beanMap = new BeanMap(docObj);
+        
     }
 
     // a few helper functions
