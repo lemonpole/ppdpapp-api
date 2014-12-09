@@ -44,9 +44,9 @@ public class FileController {
         return new ResponseEntity<Object>(fileDAO.findBatchByFileID(id), HttpStatus.OK);
     }
     @RequestMapping(method=RequestMethod.POST)
-    public ResponseEntity postFile(@RequestParam("fileObj") File fileObj,
-                                   @RequestParam("file") MultipartFile data,
-                                   @RequestParam("batchObj") Batch batchObj,
+    public ResponseEntity postFile(@RequestBody File fileObj,
+                                   @RequestBody MultipartFile data,
+                                   @RequestBody Batch batchObj,
                                    @RequestParam(value="token") String token){
         User user = null;
         try { user = accountSvc.doAuthentication(token); }
