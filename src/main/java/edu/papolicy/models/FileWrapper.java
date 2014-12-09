@@ -1,11 +1,11 @@
 package edu.papolicy.models;
 
-import org.springframework.web.multipart.MultipartFile;
+//import org.springframework.web.multipart.MultipartFile;
 
 public class FileWrapper {
     private File fileObj;
     private Batch batchObj;
-    private MultipartFile data;
+    //private MultipartFile data;
 
 
     public File getFileObj() {
@@ -24,11 +24,11 @@ public class FileWrapper {
         this.batchObj = batchObj;
     }
 
-    public MultipartFile getData() {
-        return data;
-    }
+    //public MultipartFile getData() {
+    //    return data;
+    //}
 
-    public void setData(MultipartFile data) {
-        this.data = data;
-    }
+    //public void setData(MultipartFile data) {
+    //    this.data = data;
+    //}
 }

@@ -46,16 +46,25 @@ public class FileController {
         return new ResponseEntity<Object>(fileDAO.findBatchByFileID(id), HttpStatus.OK);
     }
     @RequestMapping(method=RequestMethod.POST)
-    public ResponseEntity postFile(@RequestBody Object o, @RequestParam(value="token") String token){
+    public ResponseEntity postFile(@RequestBody File fileObj, @RequestParam(value="token") String token){
+        User user = null;
+        try { user = accountSvc.doAuthentication(token); }
+        catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
+        //Integer fileID = fileDAO.create(fileObj);
+        return new ResponseEntity<File>(fileDAO.save(fileObj), HttpStatus.OK);
+
+
+         /*
         // File fileObj
         // MultipartFile data
         // Batch batchObj
+        
         User user = null;
         try { user = accountSvc.doAuthentication(token); }
         catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
 
         FileWrapper fileWrapper = (FileWrapper) o;
-        MultipartFile data = fileWrapper.getData();
+        //MultipartFile data = fileWrapper.getData();
         File fileObj = fileWrapper.getFileObj();
         Batch batchObj = fileWrapper.getBatchObj();
         System.out.println("YIS");
@@ -84,5 +93,28 @@ public class FileController {
         } else {
             return new ResponseEntity<String>("file NOT upload", HttpStatus.NOT_FOUND);
         }
+         */
+    }
+
+    @RequestMapping(method=RequestMethod.POST, value="/upload")
+    public ResponseEntity postFile(@RequestBody FileWrapper o, @RequestParam(value="token") String token){
+        // File fileObj
+        // MultipartFile data
+        // Batch batchObj
+
+        /*
+
+
+        User user = null;
+        try {
+            user = accountSvc.doAuthentication(token);
+        } catch (Exception e) {return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);}
+
+        File fileObj = o.getFileObj();
+        Batch batchObj = o.getBatchObj();
+        System.out.println(fileObj.getName());
+        System.out.println(batchObj.getName());
+        */
+        return new ResponseEntity<String>("FileUploaded, folk", HttpStatus.OK);
     }
 }
