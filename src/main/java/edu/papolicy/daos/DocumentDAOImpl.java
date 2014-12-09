@@ -26,7 +26,7 @@ public class DocumentDAOImpl implements DocumentDAO {
 	}
 	@Override
 	@Transactional
-	public Object find(String docType, int id){
+	public Object find(String docType, String id){
 		Object docObj = sessionFactory.getCurrentSession().get(Object.class, id);
 		return docObj;
 	}
@@ -51,7 +51,7 @@ public class DocumentDAOImpl implements DocumentDAO {
     }
     @Override
     @Transactional
-    public Object findDocument(String docType, int id) {
+    public Object findDocument(String docType, String id) {
         Session sess = sessionFactory.getCurrentSession();
         SQLQuery query = sess.createSQLQuery("SELECT * FROM " + docType + " WHERE ID = " + id);
         query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
@@ -59,7 +59,7 @@ public class DocumentDAOImpl implements DocumentDAO {
     }
     @Override
     @Transactional
-    public List<Map<String, String>> findDocumentCodes(String docType, int id) {
+    public List<Map<String, String>> findDocumentCodes(String docType, String id) {
         Session sess = sessionFactory.getCurrentSession();
         SQLQuery query = sess.createSQLQuery("SELECT * FROM PAPolicy.UserPolicyCode WHERE documentID = " + id);
         query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);

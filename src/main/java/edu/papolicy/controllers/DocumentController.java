@@ -35,21 +35,21 @@ public class DocumentController {
         return new ResponseEntity<List<Object>>(documentDAO.findDocumentsNoBatch(tableName), HttpStatus.OK);
     }
     @RequestMapping(method = RequestMethod.GET, value = "/{tableName}/{id}")
-    public ResponseEntity getDocument(@PathVariable String tableName, @PathVariable int id, @RequestParam(value="token") String token){
+    public ResponseEntity getDocument(@PathVariable String tableName, @PathVariable String id, @RequestParam(value="token") String token){
         User user = null;
         try { user = accountSvc.doAuthentication(token); }
         catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
         return new ResponseEntity<Object>(documentDAO.findDocument(tableName, id), HttpStatus.OK);
     }
     @RequestMapping(method = RequestMethod.GET, value = "/{tableName}/{id}/codes")
-    public ResponseEntity getDocumentCodes(@PathVariable String tableName, @PathVariable int id, @RequestParam(value="token") String token){
+    public ResponseEntity getDocumentCodes(@PathVariable String tableName, @PathVariable String id, @RequestParam(value="token") String token){
         User user = null;
         try { user = accountSvc.doAuthentication(token); }
         catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
         return new ResponseEntity<Object>(documentDAO.findDocumentCodes(tableName, id), HttpStatus.OK);
     }
     @RequestMapping(method = RequestMethod.POST, value = "/{tableName}/{docid}/batch/{batchid}/add/code/{codeid}")
-    public ResponseEntity addDocumentCodes(@PathVariable String tableName, @PathVariable int docid, @PathVariable int batchid, @PathVariable int codeid, @RequestParam(value="token") String token){
+    public ResponseEntity addDocumentCodes(@PathVariable String tableName, @PathVariable String docid, @PathVariable int batchid, @PathVariable int codeid, @RequestParam(value="token") String token){
         User user = null;
         try { user = accountSvc.doAuthentication(token); }
         catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
