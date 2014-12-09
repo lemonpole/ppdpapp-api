@@ -1,6 +1,8 @@
 package edu.papolicy.controllers;
 
+import edu.papolicy.daos.BatchDAO;
 import edu.papolicy.daos.FileDAO;
+import edu.papolicy.models.Batch;
 import edu.papolicy.models.File;
 
 import java.io.BufferedOutputStream;
@@ -33,6 +35,13 @@ public class FileController {
         catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);}
 		return new ResponseEntity<File>(fileDAO.find(id), HttpStatus.OK);
 	}
+    @RequestMapping(method=RequestMethod.GET, value="/{id}/batches")
+    public ResponseEntity getBatchByFileID(@PathVariable int id, @RequestParam(value="token") String token){
+        User user = null;
+        try { user = accountSvc.doAuthentication(token); }
+        catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);}
+        return new ResponseEntity<Object>(fileDAO.findBatchByFileID(id), HttpStatus.OK);
+    }
     @RequestMapping(method=RequestMethod.POST)
     public ResponseEntity postFile(@RequestParam("name") String name,
                                    @RequestParam("file") MultipartFile file,
