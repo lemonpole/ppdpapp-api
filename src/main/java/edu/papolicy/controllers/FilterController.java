@@ -32,12 +32,5 @@ public class FilterController {
         catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
         return new ResponseEntity<Filter>(FilterDAO.find(id), HttpStatus.OK);
     }
-    @RequestMapping(method=RequestMethod.POST)
-    public ResponseEntity postFilter(@RequestBody Filter filterObj, @RequestParam(value="token") String token){
-            User user = null;
-            try { user = accountSvc.doAuthentication(token); }
-            catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
-        return new ResponseEntity<Filter>(FilterDAO.save(filterObj), HttpStatus.OK);
-    }
 }
 
