@@ -9,4 +9,5 @@ public interface FileDAO {
 	public File find(int id);
 	public File save(File fileObj);
 	public Object findBatchByFileID(int fileid);
+	public int create(File fileObj);
 }

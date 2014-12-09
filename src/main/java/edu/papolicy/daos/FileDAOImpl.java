@@ -45,4 +45,15 @@ public class FileDAOImpl implements FileDAO {
 		query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 		return query.uniqueResult();
 	}
+	@Override
+	@Transactional
+	public int create(File fileObj) {
+		Session sess = sessionFactory.getCurrentSession();
+		System.out.println("INSERT INTO Files (Name, FileURL, DateAdded, Creator)" +
+				"Values('"+ fileObj.getName() +"','"+fileObj.getFileURL()+"',"+fileObj.getDateAdded()+"',"+fileObj.getCreator()+"'");
+		SQLQuery query = sess.createSQLQuery("INSERT INTO Files (Name, FileURL, DateAdded, Creator)" +
+				"Values('"+ fileObj.getName() +"','"+fileObj.getFileURL()+"',"+fileObj.getDateAdded()+"',"+fileObj.getCreator()+"'");
+		query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+		return query.executeUpdate();
+	}
 }

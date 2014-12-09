@@ -37,6 +37,17 @@ public class BatchDAOImpl implements BatchDAO {
 	}
 
 	@Override
+	public void create(Batch batchObj) {
+		Session sess = sessionFactory.getCurrentSession();
+		System.out.println("INSERT INTO Batches (FileID, TablesID, Name, DateAdded, Creator, DateDue)" +
+				"Values('"+ batchObj.getFileID() +"','"+ batchObj.getTablesID() +"','"+ batchObj.getName() +"','"+ batchObj.getDateAdded() +"','"+ batchObj.getCreator() +"','"+ batchObj.getDateDue()+"')");
+		SQLQuery query = sess.createSQLQuery("INSERT INTO Batches (FileID, TablesID, Name, DateAdded, Creator, DateDue)" +
+				"Values('"+ batchObj.getFileID() +"','"+ batchObj.getTablesID() +"','"+ batchObj.getName() +"','"+ batchObj.getDateAdded() +"','"+ batchObj.getCreator() +"','"+ batchObj.getDateDue()+"')");
+		query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+		query.executeUpdate();
+	}
+
+	@Override
 	@Transactional
 	public void delete(int id){
 		Session sess = sessionFactory.getCurrentSession();

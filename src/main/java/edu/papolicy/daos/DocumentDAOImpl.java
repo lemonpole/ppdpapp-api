@@ -65,9 +65,10 @@ public class DocumentDAOImpl implements DocumentDAO {
         query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
         return query.list();
     }
+
     @Override
     @Transactional
-    public void addDocumentCode(String email, String tableName, int docid, int batchid, int codeid) {
+    public void addDocumentCode(String email, String tableName, String docid, int batchid, int codeid) {
         //set some initial variables to make the logic below more straightforward
         Session sess = sessionFactory.getCurrentSession();
         Integer tableID = tablesIDByName(tableName);
@@ -178,7 +179,7 @@ public class DocumentDAOImpl implements DocumentDAO {
         query.executeUpdate();
     }
 
-    public void insertUserPolicyCode(String email, String tableName, int docid, int batchid, int codeid) {
+    public void insertUserPolicyCode(String email, String tableName, String docid, int batchid, int codeid) {
         Session sess = sessionFactory.getCurrentSession();
         Integer tableID = tablesIDByName(tableName);
         String codeName = tableCodeByID(tableID);
@@ -192,7 +193,7 @@ public class DocumentDAOImpl implements DocumentDAO {
         }
     }
 
-    public void updateDocumentFinalCode(String tableName, int docid, int batchid, int codeid){
+    public void updateDocumentFinalCode(String tableName, String docid, int batchid, int codeid){
         Session sess = sessionFactory.getCurrentSession();
         Integer tableID = tablesIDByName(tableName);
         String codeName = tableCodeByID(tableID);

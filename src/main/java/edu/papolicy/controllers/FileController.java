@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/files")
 public class FileController {
     @Autowired private FileDAO fileDAO;
+    @Autowired private BatchDAO batchDAO;
     @Autowired private Account accountSvc;
 
     @RequestMapping(method=RequestMethod.GET)
@@ -43,29 +44,30 @@ public class FileController {
         return new ResponseEntity<Object>(fileDAO.findBatchByFileID(id), HttpStatus.OK);
     }
     @RequestMapping(method=RequestMethod.POST)
-    public ResponseEntity postFile(@RequestParam("name") String name,
-                                   @RequestParam("file") MultipartFile file,
+    public ResponseEntity postFile(@RequestParam("fileObj") File fileObj,
+                                   @RequestParam("file") MultipartFile data,
+                                   @RequestParam("batchObj") Batch batchObj,
                                    @RequestParam(value="token") String token){
         User user = null;
         try { user = accountSvc.doAuthentication(token); }
         catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
-        if (!file.isEmpty()) {
+        if (!data.isEmpty()) {
             try {
-                byte[] bytes = file.getBytes();
+                byte[] bytes = data.getBytes();
                 BufferedOutputStream stream =
-                        new BufferedOutputStream(new FileOutputStream(new java.io.File(name)));
+                        new BufferedOutputStream(new FileOutputStream(new java.io.File(fileObj.getName())));
                 stream.write(bytes);
                 stream.close();
-
-                File fileObj = new File();
-                fileObj.setName(name);
-                fileObj.setFileURL(name); //todo: fix please
-                fileObj.setDateAdded(new Date());
+                //fileObj = fileDAO.save(fileObj);
                 fileObj.setCreator(user.getEmail());
+                fileObj.setFileURL(data.getName());
+                Integer fileID = fileDAO.create(fileObj);
 
-                fileObj = fileDAO.save(fileObj);
+                batchObj.setFileID(fileID.toString());
+                batchObj.setCreator(user.getEmail());
+                batchDAO.create(batchObj);
 
-                return  new ResponseEntity<File>(fileObj, HttpStatus.OK);
+                return  new ResponseEntity<String>("file uploaded, bloke!", HttpStatus.OK);
             } catch (Exception e) {
                 return new ResponseEntity<String>("file NOT upload", HttpStatus.BAD_REQUEST);
             }
