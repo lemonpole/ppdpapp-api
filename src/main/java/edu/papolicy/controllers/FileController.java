@@ -51,6 +51,7 @@ public class FileController {
         try { user = accountSvc.doAuthentication(token); }
         catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
         //Integer fileID = fileDAO.create(fileObj);
+        fileObj.setCreator(user.getEmail());
         return new ResponseEntity<File>(fileDAO.save(fileObj), HttpStatus.OK);
 
 
@@ -58,7 +59,7 @@ public class FileController {
         // File fileObj
         // MultipartFile data
         // Batch batchObj
-        
+
         User user = null;
         try { user = accountSvc.doAuthentication(token); }
         catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
