@@ -55,9 +55,9 @@ public class FileController {
         catch(Exception e){ return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED); }
 
         FileWrapper fileWrapper = (FileWrapper) o;
-        MultipartFile data = ((FileWrapper) o).getData();
-        File fileObj = ((FileWrapper) o).getFileObj();
-        Batch batchObj = ((FileWrapper) o).getBatchObj();
+        MultipartFile data = fileWrapper.getData();
+        File fileObj = fileWrapper.getFileObj();
+        Batch batchObj = fileWrapper.getBatchObj();
         System.out.println("YIS");
         System.out.println(batchObj.getName());
 
