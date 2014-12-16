@@ -37,6 +37,17 @@ public class BatchDAOImpl implements BatchDAO {
 	}
 
 	@Override
+	public void create(Batch batchObj) {
+		Session sess = sessionFactory.getCurrentSession();
+		System.out.println("INSERT INTO Batches (FileID, TablesID, Name, DateAdded, Creator, DateDue)" +
+				"Values('"+ batchObj.getFileID() +"','"+ batchObj.getTablesID() +"','"+ batchObj.getName() +"','"+ batchObj.getDateAdded() +"','"+ batchObj.getCreator() +"','"+ batchObj.getDateDue()+"')");
+		SQLQuery query = sess.createSQLQuery("INSERT INTO Batches (FileID, TablesID, Name, DateAdded, Creator, DateDue)" +
+				"Values('"+ batchObj.getFileID() +"','"+ batchObj.getTablesID() +"','"+ batchObj.getName() +"','"+ batchObj.getDateAdded() +"','"+ batchObj.getCreator() +"','"+ batchObj.getDateDue()+"')");
+		query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+		query.executeUpdate();
+	}
+
+	@Override
 	@Transactional
 	public void delete(int id){
 		Session sess = sessionFactory.getCurrentSession();
@@ -84,7 +95,7 @@ public class BatchDAOImpl implements BatchDAO {
 
 	@Override
 	@Transactional
-	public void addDocument(int batchID, int docID) {
+	public void addDocument(int batchID, String docID) {
 		Session sess = sessionFactory.getCurrentSession();
 		SQLQuery query = sess.createSQLQuery("SELECT ID FROM Tables WHERE ID = (SELECT TablesID FROM Batches WHERE BatchID = " + batchID + ")");
 		String tableID = query.uniqueResult().toString();
@@ -95,7 +106,7 @@ public class BatchDAOImpl implements BatchDAO {
 
 	@Override
 	@Transactional
-	public void deleteDocument(int batchID, int docID) {
+	public void deleteDocument(int batchID, String docID) {
 		Session sess = sessionFactory.getCurrentSession();
 
 

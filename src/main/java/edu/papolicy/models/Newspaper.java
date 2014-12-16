@@ -11,7 +11,7 @@ import javax.persistence.Column;
  * See: http://docs.jboss.org/hibernate/annotations/3.5/reference/en/html/entity.html
  */
 @Entity
-@Table(name="Newspapers")
+@Table(name="Newspaper")
 public class Newspaper {
     /**
      * Annotated properties/fields.
@@ -21,7 +21,7 @@ public class Newspaper {
     private Integer NewspaperID;
 
     @Column(name="Name", nullable=false)
-    private Integer name;
+    private String name;
 
     public Integer getNewspaperID() {
         return NewspaperID;
@@ -30,10 +30,10 @@ public class Newspaper {
         NewspaperID = newspaperID;
     }
 
-    public Integer getName() {
+    public String getName() {
         return name;
     }
-    public void setName(Integer name) {
+    public void setName(String name) {
         this.name = name;
     }
 

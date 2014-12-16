@@ -3,6 +3,7 @@ package edu.papolicy.daos;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.loader.custom.Return;
 import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,5 +43,22 @@ public class TablesDAOImpl implements TablesDAO {
         SQLQuery query = sess.createSQLQuery("SELECT * FROM Tables");
         query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
         return query.list();
+    }
+
+    public String findCodeColumnName(int tablesID){
+        Session sess = sessionFactory.getCurrentSession();
+        SQLQuery query = sess.createSQLQuery("SELECT CodeColumn FROM Tables WHERE ID = " + tablesID);
+        query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+        return (String) query.uniqueResult();
+    }
+
+    public boolean MajorOnly(int tablesID){
+        Session sess = sessionFactory.getCurrentSession();
+        SQLQuery query = sess.createSQLQuery("SELECT MajorOnly FROM Tables WHERE ID = " + tablesID);
+        query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+        String s = (String) query.uniqueResult();
+        if (s.equals("1")){ return true; }
+        if (s.equals("0")){ return false;}
+        else throw new IllegalArgumentException(s+" problem with the boolean Code");
     }
 }
